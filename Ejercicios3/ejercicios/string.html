@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Básicos 3</title>
+</head>
+<body>
+    <h1>LISTA DE EJERCICIOS JAVASCRIPT BÁSICO III</h1>
+    <h2>Objetos Nativos de Javascript</h2>
+    <p>
+        <h3>Objeto String</h3>
+        <li>Solicitar una cadena de texto desde teclado, presentar el número de caracteres que
+            contiene y presentar la propia cadena en cursiva y en tachado.
+            </li>
+    </p>
+    <p>
+        <input type="text" name="" id="cadena">
+        <button onclick="StringOperations()">OK</button>
+    </p>
+    <p id="resultado" style="font-weight: bold;"></p>
+    <p><a href="../index.html">Volver</a></p>
+    <script>
+        const resultadoP = document.getElementById('resultado')
+        const cadenaIN = document.getElementById('cadena')
+        const StringOperations= () => {
+            const cadena = cadenaIN.value
+            console.log(cadena)
+            resultadoP.innerHTML = "Nº de carácteres: " + cadena.length + "<br>"+
+                                "Cadena cursiva: <span style='font-style: italic;'>"+ cadena+"</span><br>"+
+                                "Cadena tachada: <span style='text-decoration: line-through'>"+ cadena+"</span><br>"
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Básicos 3</title>
+</head>
+<body>
+    <h1>LISTA DE EJERCICIOS JAVASCRIPT BÁSICO III</h1>
+    <h2>Objetos Nativos de Javascript</h2>
+    <p>
+        <h3>Objeto Math</h3>
+        <li>Calcular el área de un círculo tras solicitar el radio desde un cuadro de diálogo.</li>
+    </p>
+    <p>
+        <input type="text" name="" id="radio">
+        <button onclick="CalculoArea()">OK</button>
+        A = π r²
+    </p>
+    <p id="resultado" style="font-weight: bold;"></p>
+    <p><a href="../index.html">Volver</a></p>
+    <script>
+        const resultadoP = document.getElementById('resultado')
+        const CalculoArea= () => {
+            resultadoP.innerHTML = "El área del circulo es: " + Math.PI*Math.pow(document.getElementById('radio').value,2)
+        }
+    </script>
+</body>
+</html>

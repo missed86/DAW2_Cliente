@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Número de factura: <span id="numero"></span></h1>
+        <p>Fecha: <span id="fecha"></span></p>
+        <p>Cliente: <span id="cliente"></span></p>
+        <script>
+            let factura
+            factura = JSON.parse(factura);
+
+            window.onload = () => {
+                document.getElementById("numero").innerHTML = factura.numero;
+                let f = new Date(factura.fecha).toLocaleDateString();
+                document.getElementById("fecha").innerHTML = f;
+            };
+        </script>
+    </body>
+</html>

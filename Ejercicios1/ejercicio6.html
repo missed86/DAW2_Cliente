@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 6</title>
+</head>
+<body>
+    <p id="colorear" style="padding: 10px">
+        <button onclick="colorea('red')">Rojo</button>
+        <button onclick="colorea('green')">Verde</button>
+        <button onclick="colorea('blue')">Azul</button>
+        <button onclick="colorea('yellow')">Amarillo</button>
+        <button onclick="colorea('black')">Negro</button>
+    </p>
+    <script>
+        function colorea(color) {
+            document.getElementById('colorear').style.backgroundColor = color;
+        }
+    </script>
+</body>
+</html>

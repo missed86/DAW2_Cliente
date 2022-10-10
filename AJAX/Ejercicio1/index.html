@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio AJAX con PHP</title>
+</head>
+<body>
+    <h1>Municipios de Cádiz</h1>
+    <select id="lista">
+    </select>
+    <script>
+        window.onload = CargaDatos;
+
+        function CargaDatos() {
+            let x = new XMLHttpRequest;
+            let contenido  = "";
+            x.onload = function() {
+                let respuesta = JSON.parse(x.responseText)
+                respuesta.forEach(e => {
+                    console.log(contenido)
+                    contenido += `<option value="${e.id}">${e.nombre}</option>`
+                });
+                document.getElementById('lista').innerHTML = contenido;
+            }
+            x.open("GET", "comarcas.php");
+            x.send();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Básicos 3</title>
+</head>
+<body>
+    <h1>LISTA DE EJERCICIOS JAVASCRIPT BÁSICO III</h1>
+    <h2>Objetos Nativos de Javascript</h2>
+    <p>
+        <h3>Objeto Date</h3>
+        <li> Calcular el tiempo restante en milisegundos entre la fecha actual y las 12 de la noche
+        del 31 de Diciembre del mismo año.</li>
+    </p>
+    <p id="resultado" style="font-weight: bold;"></p>
+    <p><a href="../index.html">Volver</a></p>
+    <script>
+        const resultado = document.getElementById('resultado');
+        const fechaFin = new Date("2022/12/31");
+        setInterval(()=>{
+            let fechaActual = new Date();
+            resultado.innerHTML = fechaFin - fechaActual;
+        },1)
+    </script>
+</body>
+</html>

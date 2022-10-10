@@ -1,0 +1,41 @@
+{
+  "gatos": [
+    {
+      "id": 1,
+      "nombre": "Benito",
+      "raza": "Siamés",
+      "edad": 15
+    },
+    {
+      "id": 2,
+      "nombre": "Pitufa",
+      "raza": "Común",
+      "edad": 16
+    },
+    {
+      "nombre": "Tina",
+      "raza": "Persa",
+      "edad": "17",
+      "id": 3
+    },
+    {
+      "nombre": "Sora",
+      "raza": "Común",
+      "edad": "2",
+      "id": 4
+    },
+    {
+      "nombre": "Riku",
+      "raza": "Común",
+      "edad": "2",
+      "id": 5
+    },
+    {
+      "nombre": "123",
+      "raza": "123",
+      "edad": "123",
+      "id": 6
+    }
+  ],
+  "perros": []
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Básicos 3</title>
+</head>
+<body>
+    <h1>LISTA DE EJERCICIOS JAVASCRIPT BÁSICO III</h1>
+    <h2>Objetos Nativos de Javascript</h2>
+    <p>
+        <h3>Objeto Array</h3>
+        <li> Crear una página que presente los elementos de un array numérico (inicialmente vacío)
+            y botones con las opciones siguientes:<br>
+            
+             - Insertar valor al final del array.<br>
+            
+            - Insertar al principio del array.<br>
+            - Borrar primer elemento.<br>
+            - Borrar último elemento.<br>
+            - Ordenar ascendentemente.<br>
+            - Ordenar descendentemente.<br><br>
+            Los datos a insertar en el array serán elementos aleatorios (random) de entre 1 y 1000.
+        </li>
+    </p>
+    <p>
+        <!-- <input type="text" name="" id="cadena"> -->
+        <p><button onclick="insertarFinal()">Insertar valor al final del array</button><br></p>
+        <p><button onclick="insertarPrincipio()">Insertar al principio del array</button><br></p>
+        <p><button onclick="BorrarPrimero()">Borrar primer elemento</button><br></p>
+        <p><button onclick="BorrarUltimo()">Borrar último elemento</button><br></p>
+        <p><button onclick="OrdenarAsc()">Ordenar ascendentemente</button><br></p>
+        <p><button onclick="OrdenarDesc()">Ordenar descendentemente</button><br></p>
+    </p>
+    <p id="resultado" style="font-weight: bold;"></p>
+    <p><a href="../index.html">Volver</a></p>
+    <script>
+        var array = [];
+        const aleatorio = () => Math.round(Math.random()*1000+1)
+        // const cadenaIN = document.getElementById('cadena')
+        const mostrar = (a) => document.getElementById('resultado').innerHTML = a;
+        const insertarFinal = () => {
+            array.push(aleatorio())
+            mostrar(array)
+        }
+        const insertarPrincipio = () => {
+            array.unshift(aleatorio())
+            mostrar(array)
+        }
+        const BorrarPrimero = () => {
+            array.shift(aleatorio())
+            mostrar(array)
+        }
+        const BorrarUltimo = () => {
+            array.pop(aleatorio())
+            mostrar(array)
+        }
+        const OrdenarAsc = () => {
+            array.sort((a, b) => a - b)
+            mostrar(array)
+        }
+        const OrdenarDesc = () => {
+            array.sort((a, b) => b - a)
+            mostrar(array)
+        }
+        
+    </script>
+</body>
+</html>

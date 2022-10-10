@@ -1,0 +1,15 @@
+{
+  "numero": 15,
+  "cliente": {
+    "nombre": "Jaime",
+    "apellidos": "García Sevilla",
+    "direccion": "C/ César Vallejo"
+  },
+  "fecha": "2022-10-03",
+  "articulos": [
+     {"nombre": "mesa", "precio": 65.5, "cantidad": 1},
+     {"nombre": "silla", "precio": 30, "cantidad": 4},
+     {"nombre": "mesa", "precio": 65.5, "cantidad": 1}
+  ],
+  "iva": 21
+}

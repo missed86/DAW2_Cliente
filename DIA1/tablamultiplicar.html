@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de multiplicar</title>
+</head>
+<body style="font-family: sans-serif;">
+    <h1>Tabla de multiplicar</h1>
+    <input type="number" id="number">
+    <button onclick="tablamultiplicar()">Mostrar tabla</button>
+    <button onclick="ocultar()">Ocultar tabla</button>
+    <button onclick="ponerEnRojo()">Resaltar en rojo</button>
+    <br><br>
+    <p id="tabla"></p>
+    <script>
+        function tablamultiplicar() {
+            let number = document.getElementById("number").value;
+            document.getElementById("tabla").innerHTML = '';
+            for (let i = 1; i <= 10; i++) {
+                // document.write("4 x "+ i + " = "+ 4 * i + "<br>");
+                document.getElementById("tabla").innerHTML += `${number} x ${i} = ${i*number}<br>`;
+                
+            }
+        }
+        function ocultar() {
+            document.getElementById("tabla").innerHTML = "";
+        }
+        function ponerEnRojo() {
+            document.getElementById("tabla").style.color = "red";
+        }
+    </script>
+</body>
+</html>

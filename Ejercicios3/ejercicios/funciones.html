@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios Básicos 3</title>
+</head>
+<body>
+    <h1>LISTA DE EJERCICIOS JAVASCRIPT BÁSICO III</h1>
+    <h2>Objetos Nativos de Javascript</h2>
+    <p>
+        <h3>Funciones</h3>
+        <li>Función booleana que recibe un número entero positivo y determina si es primo.</li>
+        <p>   
+            <input type="number" name="" id="primoInput">
+            <button onclick="primos()">OK</button> <span id="resultado1"></span>
+        </p>
+                  
+        <li>Función numérica que recibe dos números enteros y devuelve la resta del mayor menos el menor.</li>
+    <p>
+        <input type="number" name="" id="num1">
+        <input type="number" name="" id="num2">
+        <button onclick="restaOrdenada()">OK</button> <span id="resultado2"></span>
+    </p>
+    <p id="resultado" style="font-weight: bold;"></p>
+    <p><a href="../index.html">Volver</a></p>
+    <script>
+        const resultado1 = document.getElementById('resultado1')
+        const resultado2 = document.getElementById('resultado2')
+
+        const primoInput = document.getElementById('primoInput')
+        const num1Input = document.getElementById('num1')
+        const num2Input = document.getElementById('num2')
+        
+        const primos = () => {
+            const primo = primoInput.value
+            resultado1.innerHTML = primo%2 == 0 ? "No es un número primo" : "Es un número primo"
+        }
+        const restaOrdenada = () => {
+            const num1 = Number(num1Input.value)
+            const num2 = Number(num2Input.value)
+
+            resultado2.innerHTML = (num1>num2) ? num1-num2 : num2-num1
+        }
+    </script>
+</body>
+</html>
