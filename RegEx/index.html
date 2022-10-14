@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegEx</title>
+</head>
+<body>
+    <script>
+        let miExpresionRegular = /a/g;
+        miExpresionRegular = new RegExp("a","g");
+        // console.log(miExpresionRegular);
+        
+        // El método test se aplica sobre expresiones regulares
+        let testeo = miExpresionRegular.test("Hola a todos");
+
+        // Métodos search y replace se aplican sobre cadenas
+        let resultado = "Hola a todos".search(miExpresionRegular);
+        
+        let texto = "Hola a todos";
+        texto = texto.replace(miExpresionRegular, "*");    
+        
+        // console.log(texto);
+
+
+
+    </script>
+</body>
+</html>

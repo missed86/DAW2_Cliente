@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de Formulario</title>
+</head>
+<body>
+    <form action="procesar_formulario.php" id="formElem" method="POST" enctype="multipart/form-data"
+    onsubmit="return Validar()">
+        <pre>
+            Campo input            <input type="text" name="c1" id="c1"><br>
+            Campo password         <input type="password" name="c2" id="c2"><br>
+            Campo checkbox         <input type="checkbox" name="c3" id=""><br>
+            Campo radio            <input type="radio" name="c4" value="1">1<br>
+                                   <input type="radio" name="c4" value="2">2<br>
+                                   <input type="radio" name="c4" value="3">3<br>
+                                   <input type="radio" name="c4" value="4">4<br>
+            Menu Seleccion         <select name="menu" id="">
+                                   <option value="-1">--Seleccione--</option>
+                                   <option value="1">Uno</option>
+                                   <option value="2">Dos</option>
+                                   <option value="3">Tres</option>
+                                   <option value="4">Cuatro</option>
+            </select>        
+
+            Seleccion Multiple     <select name="menu2[]" id="" multiple>
+                                   <option value="-1">--Seleccione--</option>
+                                   <option value="1">Uno</option>
+                                   <option value="2">Dos</option>
+                                   <option value="3">Tres</option>
+                                   <option value="4">Cuatro</option>
+            </select>
+
+            <input type="file" name="archivo">
+
+            <input type="submit" value="Enviar">
+        </pre>
+    </form>
+    <script>
+        function Validar() {
+            if (!/\S+/.test(document.getElementById("c1").value)) {
+                document.getElementById("c1").focus();
+                alert("Campo invalido");
+                return false;
+            }                 
+            // al menos 5 caracteres, maximo 10
+            // que empieza por una letra mayuscula y que al menos tenga un digito
+            if (!/^(?=.*\d)(?=.*_)[A-ZÑ].{5,10}$/.test(document.getElementById("c2").value)) {
+                alert("La contraseña debe tener entre 5 y 10 caracteres, comenzar por una mayuscula y contener al menos un digito");
+                document.getElementById("c2").focus();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
