@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina el número</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="juego">
+        <div class="fila">
+            <div class="cifra">1</div>
+            <div class="cifra">2</div>
+            <div class="cifra">3</div>
+            <div class="cifra correct">4</div>
+            <div class="cifra maybe">5</div>
+        </div>
+        <div class="fila actual">
+            <div class="cifra posicion"></div>
+            <div class="cifra"></div>
+            <div class="cifra"></div>
+            <div class="cifra"></div>
+            <div class="cifra"></div>
+        </div>
+    </div>
+    <div id="teclado">
+        <button onclick="Escribe(1)">1</button>
+        <button onclick="Escribe(2)">2</button>
+        <button onclick="Escribe(3)">3</button>
+        <button onclick="Escribe(4)">4</button>
+        <button onclick="Escribe(5)">5</button>
+        <button onclick="Escribe(6)">6</button>
+        <button onclick="Escribe(7)">7</button>
+        <button onclick="Escribe(8)">8</button>
+        <button onclick="Escribe(9)">9</button>
+        <button onclick="Escribe(0)">0</button>
+    </div>
+    <script>
+    
+        let size = 5;
+        class Posicion {
+            constructor() {
+                this.size = size;
+                this.posicion = 0;
+            }
+            next() {
+                this.posicion = (this.posicion==size-1) ? 0 : this.posicion+1;
+                // this.move();
+                this.puntero();
+            }
+            prev() {
+                this.posicion = (this.posicion==0) ? size-1 : this.posicion-1;
+                // this.move();
+                this.puntero();
+            }
+            move(x) {
+                if (x<size) {
+                    this.posicion = x;
+                    // console.log("moviendo a: " + x);
+                    this.puntero();
+                }
+            }
+            position() {
+                return this.posicion;
+            }
+            puntero(){
+                console.log(this.posicion)
+                document.querySelector(".posicion").classList.remove("posicion");
+                document.querySelectorAll(".actual .cifra")[this.posicion].classList.add("posicion");
+            }
+
+        }
+  
+        const pos = new Posicion();
+
+        function Escribe(num) {
+            console.log(num);
+            const cifras = document.querySelectorAll("fila.actual .cifra");
+
+
+            document.querySelector(".cifra.posicion").innerHTML = num;
+
+        }
+    
+    </script>
+</body>
+</html>
