@@ -1,140 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adivina el número</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="juego">
-        <div class="fila">
-            <div class="cifra">1</div>
-            <div class="cifra">2</div>
-            <div class="cifra">3</div>
-            <div class="cifra correct">4</div>
-            <div class="cifra maybe">5</div>
-        </div>
-        <div class="fila actual">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Adivina el número</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div id="juego">
+			<div class="fila actual">
+				<div class="cifra posicion"></div>
+				<div class="cifra"></div>
+				<div class="cifra"></div>
+				<div class="cifra"></div>
+				<div class="cifra"></div>
+			</div>
+		</div>
+		<div id="teclado">
+			<button onclick="Escribe(1)">1</button>
+			<button onclick="Escribe(2)">2</button>
+			<button onclick="Escribe(3)">3</button>
+			<button onclick="Escribe(4)">4</button>
+			<button onclick="Escribe(5)">5</button>
+			<button onclick="Escribe(6)">6</button>
+			<button onclick="Escribe(7)">7</button>
+			<button onclick="Escribe(8)">8</button>
+			<button onclick="Escribe(9)">9</button>
+			<button onclick="Escribe(0)">0</button>
+			<button onclick="Comprobar()">+</button>
+		</div>
+		<script>
+			let size = 5;
+			let solution = Math.round(Math.random() * Math.pow(10, size))
+				.toString()
+				.padStart(size, "0")
+				.split("");
+			console.log(solution);
+
+			class Posicion {
+				constructor() {
+					this.size = size;
+					this.posicion = 0;
+				}
+				next() {
+					this.posicion = this.posicion >= size - 1 ? 0 : this.posicion + 1;
+					// this.move();
+					if (
+						document
+							.querySelectorAll(".actual .cifra")
+							[this.posicion].classList.contains("correct")
+					) {
+						this.next();
+					}
+					this.puntero();
+				}
+				prev() {
+					this.posicion = this.posicion == 0 ? size - 1 : this.posicion - 1;
+					// this.move();
+					if (
+						document
+							.querySelectorAll(".actual .cifra")
+							[this.posicion].classList.contains("correct")
+					) {
+						this.prev();
+					}
+					this.puntero();
+				}
+				move(x) {
+					if (x < size) {
+						this.posicion = x;
+						// console.log("moviendo a: " + x);
+						this.puntero();
+					}
+				}
+				position() {
+					return this.posicion;
+				}
+				reset() {
+					this.posicion = 0;
+					if (
+						document
+							.querySelectorAll(".actual .cifra")
+							[this.posicion].classList.contains("correct")
+					) {
+						this.next();
+					}
+				}
+				puntero() {
+					// console.log(this.posicion)
+					document.querySelector(".posicion").classList.remove("posicion");
+					document
+						.querySelectorAll(".actual .cifra")
+						[this.posicion].classList.add("posicion");
+				}
+			}
+
+			const pos = new Posicion();
+
+			function nuevaLinea(array) {
+				document.querySelector(".posicion").classList.remove("posicion");
+				document.querySelector(".actual").classList.remove("actual");
+				document.getElementById("juego").innerHTML += `<div class="fila actual">
             <div class="cifra posicion"></div>
             <div class="cifra"></div>
             <div class="cifra"></div>
             <div class="cifra"></div>
             <div class="cifra"></div>
-        </div>
-    </div>
-    <div id="teclado">
-        <button onclick="Escribe(1)">1</button>
-        <button onclick="Escribe(2)">2</button>
-        <button onclick="Escribe(3)">3</button>
-        <button onclick="Escribe(4)">4</button>
-        <button onclick="Escribe(5)">5</button>
-        <button onclick="Escribe(6)">6</button>
-        <button onclick="Escribe(7)">7</button>
-        <button onclick="Escribe(8)">8</button>
-        <button onclick="Escribe(9)">9</button>
-        <button onclick="Escribe(0)">0</button>
-        <button onclick="Comprobar()">+</button>
-    </div>
-    <script>
-        let size = 5;
-        let solution = Math.round(Math.random()*Math.pow(10,size)).toString().padStart(size,'0').split('');
-        console.log(solution);
+            </div>`;
 
-        class Posicion {
-            constructor() {
-                this.size = size;
-                this.posicion = 0;
-            }
-            next() {
-                this.posicion = (this.posicion==size-1) ? size-1 : this.posicion+1;
-                // this.move();
-                if (document.querySelectorAll(".actual .cifra")[this.posicion].classList.contains('correct')) {
-                    this.next();
-                }
-                this.puntero();
-            }
-            prev() {
-                this.posicion = (this.posicion==0) ? size-1 : this.posicion-1;
-                // this.move();
-                this.puntero();
-            }
-            move(x) {
-                if (x<size) {
-                    this.posicion = x;
-                    // console.log("moviendo a: " + x);
-                    this.puntero();
-                }
-            }
-            position() {
-                return this.posicion;
-            }
-            reset() {
-                this.posicion = 0;
-                if (document.querySelectorAll(".actual .cifra")[this.posicion].classList.contains('correct')) {
-                    this.next();
-                }
-            }
-            puntero(){
-                // console.log(this.posicion)
-                document.querySelector(".posicion").classList.remove("posicion");
-                document.querySelectorAll(".actual .cifra")[this.posicion].classList.add("posicion");
-            }
-        }
-  
-        const pos = new Posicion();
-        
-        function nuevaLinea(array) {
-            document.querySelector(".posicion").classList.remove("posicion");
-            document.querySelector(".actual").classList.remove("actual");
-            document.getElementById("juego").innerHTML += `<div class="fila actual">
-            <div class="cifra posicion"></div>
-            <div class="cifra"></div>
-            <div class="cifra"></div>
-            <div class="cifra"></div>
-            <div class="cifra"></div>
-            </div>`
+				array.forEach((e, i) => {
+					if (e != null) {
+						document.querySelectorAll(".actual .cifra")[i].innerHTML = e;
+						document
+							.querySelectorAll(".actual .cifra")
+							[i].classList.add("correct");
+					}
+				});
+			}
+			function Escribe(num) {
+				// console.log(num);
+				const cifras = document.querySelectorAll(".fila.actual .cifra");
 
-            array.forEach((e,i) => {
-                if (e!=null) {
-                    document.querySelectorAll(".actual .cifra")[i].innerHTML = e;
-                    document.querySelectorAll(".actual .cifra")[i].classList.add('correct');
+				document.querySelector(".cifra.posicion").innerHTML = num;
+				pos.next();
+			}
+			function Comprobar() {
+				let array = [];
+				document.querySelectorAll(".actual .cifra").forEach((e, i) => {
+					array.push(e.innerHTML);
+				});
+				// console.log(array);
+				let correct = [];
+                let inverso = [...solution];
+				solution.map((e, i) => {
+                    if (e == array[i]) {
+                        document
+							.querySelectorAll(".actual .cifra")
+							[i].classList.add("correct");
+                        inverso[i] = null;
+					}
+                    
+					if (e == array[i]) {
+                        correct.push(e);
+					} else {
+                        correct.push(null);
+					}
+				});
+                
+                solution.map((e, i) => {
+                    if (inverso.includes(array[i])) {
+                        if (!document.querySelectorAll(".actual .cifra")[i].classList.contains("correct")) {
+                            console.log(inverso,array[i])
+                            document.querySelectorAll(".actual .cifra")[i].classList.add("maybe");}
+                    }
+                })
+				if (JSON.stringify(correct) == JSON.stringify(array)) {
+					alert("Win");
+                    document.querySelector(".posicion").classList.remove("posicion");
+					return true;
+				}
+				nuevaLinea(correct);
+				pos.reset();
+			}
+			window.addEventListener("keydown", (e) => {
+				// console.log(e.key);
+				if (e.key < 10 && e.key >= 0) Escribe(e.key);
+				if (e.key == "Enter") Comprobar();
+				if (e.key == "ArrowLeft") pos.prev();
+				if (e.key == "ArrowRight") pos.next();
+				if (e.key == "Backspace") {
+                    pos.prev();
+                    document.querySelector(".cifra.posicion").innerHTML = '';
                 }
-            });
-        }
-        function Escribe(num) {
-            // console.log(num);
-            const cifras = document.querySelectorAll(".fila.actual .cifra");
-            
-            document.querySelector(".cifra.posicion").innerHTML = num;
-            pos.next();
-        }
-        function Comprobar() {
-            let array = [];
-            document.querySelectorAll('.actual .cifra').forEach((e,i)=> {
-                array.push(e.innerHTML);
-            })
-            // console.log(array);
-            let correct = []
-            solution.map((e,i) => {
-                if (e == array[i]) {
-                    document.querySelectorAll(".actual .cifra")[i].classList.add("correct");
-                } else if (solution.includes(array[i])) {
-                    document.querySelectorAll(".actual .cifra")[i].classList.add("maybe");
-                }
-                if (e == array[i]) {
-                    correct.push(e) 
-                } else {
-                    correct.push(null)
-                }
-
-            })
-            nuevaLinea(correct);
-            pos.reset();
-
-        }
-    
-    </script>
-</body>
+			});
+		</script>
+	</body>
 </html>
