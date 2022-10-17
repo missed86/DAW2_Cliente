@@ -1,15 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;600;700;900');
 * {
-    font-family: sans-serif;
+    font-family: "Roboto";
 }
 /* #juego {
     float: left;
     clear: left;
 } */
-
-.fila {
+main {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 97vh;
+}
+#juego {
+    margin: 0 auto;
+    height: 100%;
+}
+#juego .fila {
     display:flex;
     margin-bottom: 5px;
 }
+#teclado .fila {
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 5px;
+}
+#teclado .fila button{
+    /* padding:20px; */
+    width: 55px;
+    height: 68px;
+    font-size: 20px;
+    background-color: transparent;
+    border-radius: 8px;
+    margin: 0 2px;
+    
+}
+#teclado .fila :active {
+    background-color: lightgray;
+    border-color: lightgray;
+}
+
 .cifra {
     border: 3px solid gray;
     width: 50px;

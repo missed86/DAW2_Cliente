@@ -1,0 +1,184 @@
+let size = 5;
+// let solution = Math.round(Math.random() * Math.pow(10, size))
+// 	.toString()
+// 	.padStart(size, "0")
+// 	.split("");
+
+const GereraNumerosUnicos = (size) => {
+    let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    numbers = numbers.sort(() => {
+        return Math.random() - 0.5;
+    });
+    return numbers.slice(0, size);
+};
+const solution = GereraNumerosUnicos(size);
+// console.log(solution);
+
+class Posicion {
+    constructor() {
+        this.size = size;
+        this.posicion = 0;
+    }
+    next() {
+        this.posicion = this.posicion >= size - 1 ? 0 : this.posicion + 1;
+        // this.move();
+        if (
+            document
+                .querySelectorAll(".actual .cifra")
+                [this.posicion].classList.contains("correct")
+        ) {
+            this.next();
+        }
+        this.puntero();
+    }
+    prev() {
+        this.posicion = this.posicion == 0 ? size - 1 : this.posicion - 1;
+        // this.move();
+        if (
+            document
+                .querySelectorAll(".actual .cifra")
+                [this.posicion].classList.contains("correct")
+        ) {
+            this.prev();
+        }
+        this.puntero();
+    }
+    borra() {
+        this.prev();
+        document.querySelector(".cifra.posicion").innerHTML = "";
+    }
+    move(x) {
+        if (x < size) {
+            this.posicion = x;
+            // console.log("moviendo a: " + x);
+            this.puntero();
+        }
+    }
+    position() {
+        return this.posicion;
+    }
+    reset() {
+        this.posicion = 0;
+        if (
+            document
+                .querySelectorAll(".actual .cifra")
+                [this.posicion].classList.contains("correct")
+        ) {
+            this.next();
+        }
+    }
+    puntero() {
+        // console.log(this.posicion)
+        document.querySelector(".posicion").classList.remove("posicion");
+        document
+            .querySelectorAll(".actual .cifra")
+            [this.posicion].classList.add("posicion");
+    }
+}
+
+const pos = new Posicion();
+
+function nuevaLinea(array) {
+    Adapta();
+    document.querySelector(".posicion").classList.remove("posicion");
+    document.querySelector(".actual").classList.remove("actual");
+    document.getElementById("juego").innerHTML += `<div class="fila actual">
+    <div class="cifra posicion"></div>
+    <div class="cifra"></div>
+    <div class="cifra"></div>
+    <div class="cifra"></div>
+    <div class="cifra"></div>
+    </div>`;
+    
+    array.forEach((e, i) => {
+        if (e != null) {
+            document.querySelectorAll(".actual .cifra")[i].innerHTML = e;
+            document
+            .querySelectorAll(".actual .cifra")
+            [i].classList.add("correct");
+        }
+    });
+}
+
+function Escribe(num) {
+    // console.log(num);
+    const cifras = document.querySelectorAll(".fila.actual .cifra");
+
+    document.querySelector(".cifra.posicion").innerHTML = num;
+    pos.next();
+}
+function Comprobar() {
+    let array = [];
+    document.querySelectorAll(".actual .cifra").forEach((e, i) => {
+        array.push((e.innerHTML=='')?11:Number(e.innerHTML));
+    });
+    // console.log(array);
+    let correct = [];
+    let inverso = [...solution];
+    solution.map((e, i) => {
+        if (e == array[i]) {
+            document
+                .querySelectorAll(".actual .cifra")
+                [i].classList.add("correct");
+            inverso[i] = null;
+        }
+
+        if (e == array[i]) {
+            correct.push(e);
+        } else {
+            correct.push(null);
+        }
+    });
+
+    solution.map((e, i) => {
+        if (inverso.includes(array[i])) {
+            if (
+                !document
+                    .querySelectorAll(".actual .cifra")
+                    [i].classList.contains("correct")
+            ) {
+                console.log(inverso, array[i]);
+                document
+                    .querySelectorAll(".actual .cifra")
+                    [i].classList.add("maybe");
+            }
+        }
+    });
+    if (JSON.stringify(correct) == JSON.stringify(array)) {
+        alert("Win");
+        document.querySelector(".posicion").classList.remove("posicion");
+        return true;
+    }
+    nuevaLinea(correct);
+    click()
+    pos.reset();
+}
+function Adapta() {
+    const alturaJuego = document.getElementById('juego').offsetHeight;
+    const alturaFila = document.querySelector('#juego .fila').clientHeight;
+    const cuentaFilas = document.querySelectorAll('#juego .fila').length;
+    console.log(alturaJuego);
+    if(alturaJuego<alturaFila*(cuentaFilas+1)) {
+        if(cuentaFilas>2){
+            // console.log(cuentaFilas);
+            document.querySelectorAll('#juego .fila')[0].remove();
+        }
+    }
+}
+window.addEventListener("keydown", (e) => {
+    // console.log(e.key);
+    if (e.key < 10 && e.key >= 0) Escribe(e.key);
+    if (e.key == "Enter") Comprobar();
+    if (e.key == "ArrowLeft") pos.prev();
+    if (e.key == "ArrowRight") pos.next();
+    if (e.key == "Backspace") pos.borra();
+});
+function click(notfirst) {
+    document.querySelectorAll('.actual .cifra').forEach((e,i)=> {
+        e.addEventListener('click',()=> {
+            pos.move(i)
+        })
+    })
+}
+click();
+window.onresize = ()=>Adapta();
