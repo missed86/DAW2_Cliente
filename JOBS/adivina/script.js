@@ -79,7 +79,6 @@ class Posicion {
 const pos = new Posicion();
 
 function nuevaLinea(array) {
-    Adapta(1);
     document.querySelector(".posicion").classList.remove("posicion");
     document.querySelector(".actual").classList.remove("actual");
     document.getElementById("juego").innerHTML += `<div class="fila actual">
@@ -98,6 +97,7 @@ function nuevaLinea(array) {
             [i].classList.add("correct");
         }
     });
+    Adapta();
 }
 
 function Escribe(num) {
@@ -158,14 +158,19 @@ function Adapta() {
     const alturaJuego = document.getElementById('juego').offsetHeight-10;
     const alturaFila = document.querySelector('#juego .fila').offsetHeight+5;
     const cuentaFilas = document.querySelectorAll('#juego .fila').length;
-    console.log(Math.trunc(alturaJuego/alturaFila)-1, cuentaFilas);
+    const alturaTeclado = document.getElementById('teclado').offsetHeight;
+
+    const alturaViewport = window.innerHeight;
+
+    console.log(alturaJuego+alturaTeclado, alturaViewport, alturaViewport<(alturaJuego+alturaTeclado+24));
     // if(alturaJuego<alturaFila*(cuentaFilas+1)) {
     //     if(cuentaFilas>2){
     //         // console.log(cuentaFilas);
     //         document.querySelectorAll('#juego .fila')[0].remove();
     //     }
     // }
-    if((Math.trunc(alturaJuego/alturaFila))<=cuentaFilas && cuentaFilas>2) {
+
+    if(alturaViewport<(alturaJuego+alturaTeclado+27) && cuentaFilas>2) {
         // console.log(cuentaFilas);
         document.querySelectorAll('#juego .fila')[0].remove();
     }
@@ -187,4 +192,4 @@ function click(notfirst) {
     })
 }
 click();
-window.onresize = ()=>Adapta(0);
+window.onresize = ()=>Adapta();

@@ -6,6 +6,7 @@
     float: left;
     clear: left;
 } */
+
 main {
     display: flex;
     width: fit-content;
@@ -15,7 +16,7 @@ main {
     height: 97vh;
 }
 #juego {
-    margin: 0 auto;
+    margin: 5px auto 0 auto;
     height: 100%;
 }
 #juego .fila {
