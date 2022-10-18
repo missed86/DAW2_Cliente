@@ -161,7 +161,7 @@ function Comprobar() {
 function Adapta() {
     
     const alturaJuego = document.getElementById('juego').offsetHeight-10;
-    const alturaFila = document.querySelector('#juego .fila').offsetHeight+5;
+    // const alturaFila = document.querySelector('#juego .fila').offsetHeight+5;
     const cuentaFilas = document.querySelectorAll('#juego .fila').length;
     const alturaTeclado = document.getElementById('teclado').offsetHeight;
     const alturaLogo = document.querySelector('.logo').offsetHeight;
