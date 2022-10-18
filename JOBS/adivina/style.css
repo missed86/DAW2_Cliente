@@ -3,12 +3,18 @@
 * {
     font-family: "Roboto";
 }
+html,body {
+    height: 100%;
+    width: 100vw;
+}
 /* #juego {
     float: left;
     clear: left;
 } */
-html {
+body {
     overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 .fi {
     margin-top: 1px;
@@ -36,7 +42,7 @@ main {
     margin: 0 auto;
     flex-direction: column;
     justify-content: space-between;
-    height: 97vh;
+    height: 100%;
 }
 #juego {
     margin: 5px auto 0 auto;

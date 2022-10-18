@@ -161,7 +161,7 @@ function Comprobar() {
 function Adapta() {
     
     const alturaJuego = document.getElementById('juego').offsetHeight-10;
-    // const alturaFila = document.querySelector('#juego .fila').offsetHeight+5;
+    const alturaFila = document.querySelector('#juego .fila').offsetHeight+5;
     const cuentaFilas = document.querySelectorAll('#juego .fila').length;
     const alturaTeclado = document.getElementById('teclado').offsetHeight;
     const alturaLogo = document.querySelector('.logo').offsetHeight;
@@ -176,7 +176,11 @@ function Adapta() {
     //     }
     // }
 
-    if(alturaViewport<(alturaJuego+alturaTeclado+alturaLogo+48) && cuentaFilas>2) {
+    // if(alturaViewport<(alturaJuego+alturaTeclado+alturaLogo+48) && cuentaFilas>2) {
+    //     // console.log(cuentaFilas);
+    //     document.querySelectorAll('#juego .fila')[0].remove();
+    // }
+    if(alturaViewport<((alturaFila*(cuentaFilas+1))+alturaTeclado) && cuentaFilas>2) {
         // console.log(cuentaFilas);
         document.querySelectorAll('#juego .fila')[0].remove();
     }
