@@ -1,3 +1,4 @@
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;600;700;900&family=Comfortaa:wght@200;300;400;600;700;900');
 * {
     font-family: "Roboto";
@@ -8,6 +9,9 @@
 } */
 html {
     overflow: hidden;
+}
+.fi {
+    margin-top: 1px;
 }
 .retry {
     width: 100%;
@@ -59,13 +63,14 @@ main {
     background-color: transparent;
     border-radius: 8px;
     margin: 0 2px;
+    line-height: 100%;
+    font-weight: 600;
     
 }
 #teclado .fila :active {
     background-color: lightgray;
     border-color: lightgray;
 }
-
 .cifra {
     border: 3px solid gray;
     width: 50px;
