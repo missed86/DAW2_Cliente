@@ -118,45 +118,53 @@ function Comprobar() {
         array.push((e.innerHTML=='')?11:Number(e.innerHTML));
     });
     // console.log(array);
-    let correct = [];
-    let inverso = [...solution];
-    solution.map((e, i) => {
-        if (e == array[i]) {
-            document
-                .querySelectorAll(".actual .cifra")
-                [i].classList.add("correct");
-            inverso[i] = null;
-        }
-
-        if (e == array[i]) {
-            correct.push(e);
-        } else {
-            correct.push(null);
-        }
-    });
-
-    solution.map((e, i) => {
-        if (inverso.includes(array[i])) {
-            if (
-                !document
-                    .querySelectorAll(".actual .cifra")
-                    [i].classList.contains("correct")
-            ) {
-                console.log(inverso, array[i]);
+    if (!array.includes(11)) {
+       let correct = [];
+        let inverso = [...solution];
+        solution.map((e, i) => {
+            if (e == array[i]) {
                 document
                     .querySelectorAll(".actual .cifra")
-                    [i].classList.add("maybe");
+                    [i].classList.add("correct");
+                inverso[i] = null;
             }
+
+            if (e == array[i]) {
+                correct.push(e);
+            } else {
+                correct.push(null);
+            }
+        });
+
+        solution.map((e, i) => {
+            if (inverso.includes(array[i])) {
+                if (
+                    !document
+                        .querySelectorAll(".actual .cifra")
+                        [i].classList.contains("correct")
+                ) {
+                    console.log(inverso, array[i]);
+                    document
+                        .querySelectorAll(".actual .cifra")
+                        [i].classList.add("maybe");
+                }
+            }
+        });
+        if (JSON.stringify(correct) == JSON.stringify(array)) {
+            nuevaLinea("win");
+            // document.querySelector(".posicion").classList.remove("posicion");
+            return true;
         }
-    });
-    if (JSON.stringify(correct) == JSON.stringify(array)) {
-        nuevaLinea("win");
-        // document.querySelector(".posicion").classList.remove("posicion");
-        return true;
+        nuevaLinea(correct);
+        click();
+        pos.reset(); 
+    } else {
+        document.querySelector(".actual").classList.add('tiembla');
+        setTimeout(()=> {
+            document.querySelector(".actual").classList.remove('tiembla');
+        },500)
     }
-    nuevaLinea(correct);
-    click();
-    pos.reset();
+    
 }
 function Adapta() {
     
