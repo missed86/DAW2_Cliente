@@ -11,7 +11,7 @@ const GereraNumerosUnicos = (size) => {
     });
     return numbers.slice(0, size);
 };
-const solution = GereraNumerosUnicos(size);
+var solution = GereraNumerosUnicos(size);
 // console.log(solution);
 
 class Posicion {
@@ -81,25 +81,30 @@ const pos = new Posicion();
 function nuevaLinea(array) {
     document.querySelector(".posicion").classList.remove("posicion");
     document.querySelector(".actual").classList.remove("actual");
-    document.getElementById("juego").innerHTML += `<div class="fila actual">
-    <div class="cifra posicion"></div>
-    <div class="cifra"></div>
-    <div class="cifra"></div>
-    <div class="cifra"></div>
-    <div class="cifra"></div>
-    </div>`;
+    if(array== "win") {
+        document.getElementById("juego").innerHTML += '<div class="fila"><button onclick="resetGame()" class="retry"> Reintentar?</div></div>'
+    } else {
+        document.getElementById("juego").innerHTML += `<div class="fila actual">
+        <div class="cifra posicion"></div>
+        <div class="cifra"></div>
+        <div class="cifra"></div>
+        <div class="cifra"></div>
+        <div class="cifra"></div>
+        </div>`;
+        
+        array.forEach((e, i) => {
+            if (e != null) {
+                document.querySelectorAll(".actual .cifra")[i].innerHTML = e;
+                document
+                .querySelectorAll(".actual .cifra")
+                [i].classList.add("correct");
+            }
+        });
+    }
     
-    array.forEach((e, i) => {
-        if (e != null) {
-            document.querySelectorAll(".actual .cifra")[i].innerHTML = e;
-            document
-            .querySelectorAll(".actual .cifra")
-            [i].classList.add("correct");
-        }
-    });
     Adapta();
 }
-
+// nuevaLinea("win");
 function Escribe(num) {
     // console.log(num);
     const cifras = document.querySelectorAll(".fila.actual .cifra");
@@ -145,12 +150,12 @@ function Comprobar() {
         }
     });
     if (JSON.stringify(correct) == JSON.stringify(array)) {
-        alert("Win");
-        document.querySelector(".posicion").classList.remove("posicion");
+        nuevaLinea("win");
+        // document.querySelector(".posicion").classList.remove("posicion");
         return true;
     }
     nuevaLinea(correct);
-    click()
+    click();
     pos.reset();
 }
 function Adapta() {
@@ -159,10 +164,11 @@ function Adapta() {
     const alturaFila = document.querySelector('#juego .fila').offsetHeight+5;
     const cuentaFilas = document.querySelectorAll('#juego .fila').length;
     const alturaTeclado = document.getElementById('teclado').offsetHeight;
+    const alturaLogo = document.querySelector('.logo').offsetHeight;
 
     const alturaViewport = window.innerHeight;
 
-    console.log(alturaJuego+alturaTeclado, alturaViewport, alturaViewport<(alturaJuego+alturaTeclado+24));
+    console.log(alturaJuego+alturaTeclado+alturaLogo, alturaViewport, alturaViewport<(alturaJuego+alturaTeclado+24));
     // if(alturaJuego<alturaFila*(cuentaFilas+1)) {
     //     if(cuentaFilas>2){
     //         // console.log(cuentaFilas);
@@ -170,7 +176,7 @@ function Adapta() {
     //     }
     // }
 
-    if(alturaViewport<(alturaJuego+alturaTeclado+27) && cuentaFilas>2) {
+    if(alturaViewport<(alturaJuego+alturaTeclado+alturaLogo+48) && cuentaFilas>2) {
         // console.log(cuentaFilas);
         document.querySelectorAll('#juego .fila')[0].remove();
     }
@@ -184,7 +190,7 @@ window.addEventListener("keydown", (e) => {
     if (e.key == "ArrowRight") pos.next();
     if (e.key == "Backspace") pos.borra();
 });
-function click(notfirst) {
+function click() {
     document.querySelectorAll('.actual .cifra').forEach((e,i)=> {
         e.addEventListener('click',()=> {
             pos.move(i)
@@ -192,4 +198,15 @@ function click(notfirst) {
     })
 }
 click();
+function resetGame() {
+    solution = GereraNumerosUnicos(size);
+    document.getElementById("juego").innerHTML = `<div class="fila actual">
+    <div class="cifra posicion"></div>
+    <div class="cifra"></div>
+    <div class="cifra"></div>
+    <div class="cifra"></div>
+    <div class="cifra"></div>
+    </div>`;
+}
 window.onresize = ()=>Adapta();
+// console.log(solution)

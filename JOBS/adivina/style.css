@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;600;700;900');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;600;700;900&family=Comfortaa:wght@200;300;400;600;700;900');
 * {
     font-family: "Roboto";
 }
@@ -6,7 +6,26 @@
     float: left;
     clear: left;
 } */
-
+html {
+    overflow: hidden;
+}
+.retry {
+    width: 100%;
+    height: 56px;
+    background-color: transparent;
+    border: 3px solid gray;
+    font-family: "Roboto";
+    font-size: 15px;
+    margin: 0 2px;
+    
+}
+.logo {
+    font-family: "Comfortaa";
+    text-align: center;
+    font-size: 30px;
+    margin: 10px 0 10px 0;
+    color: rgb(45, 83, 120);
+}
 main {
     display: flex;
     width: fit-content;
@@ -18,10 +37,13 @@ main {
 #juego {
     margin: 5px auto 0 auto;
     height: 100%;
+    align-items: center;
 }
 #juego .fila {
     display:flex;
     margin-bottom: 5px;
+    justify-content: space-around;
+    align-items: center;
 }
 #teclado .fila {
     display:flex;
@@ -32,7 +54,7 @@ main {
 #teclado .fila button{
     /* padding:20px; */
     width: 55px;
-    height: 68px;
+    height: 60px;
     font-size: 20px;
     background-color: transparent;
     border-radius: 8px;
