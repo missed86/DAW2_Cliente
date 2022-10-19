@@ -30,39 +30,60 @@ function borra(){
 	}
 }
 function comprueba(){
-    let input = actualInput.innerHTML;
+    let input = Number(actualInput.innerHTML);
     if (input < numero) {
         menoresArray.push(input);
-        menoresArray.sort();
-        menoresArray.reverse();
+        menoresArray.sort((a, b) => b - a);
         document.getElementById('menores').innerHTML = '';
         let porcentaje = 100;
         menoresArray.forEach((e,i)=>{
             if (porcentaje>0) {
                 document.getElementById('menores').innerHTML = `<div class="number menor" 
-                style="opacity:${porcentaje}%;scale:${porcentaje-20}%">${e}</div>`+ document.getElementById('menores').innerHTML;
-                porcentaje -= 20;
+                style="opacity:${porcentaje}%">${e}</div>`+ document.getElementById('menores').innerHTML;
+                porcentaje -= 30;
             }
 
         })
     }
     if (input > numero) {
         mayoresArray.push(input);
-        mayoresArray.sort();
-        menoresArray.reverse();
+        mayoresArray.sort((a, b) => a - b);
         document.getElementById('mayores').innerHTML = '';
         let porcentaje = 100;
         mayoresArray.forEach((e)=>{
             if (porcentaje>0) {
                 document.getElementById('mayores').innerHTML += `<div class="number mayor" 
-                style="opacity:${porcentaje}%;scale:${porcentaje-20}%">${e}</div>`
-                porcentaje -=20;
+                style="opacity:${porcentaje}%">${e}</div>`
+                porcentaje -=30;
             }
         })
     }
     if (input == numero) {
-        alert("WIN!\n El numero era "+ numero);
+        // alert("WIN!\n El numero era "+ numero);
+        modalShow();
         return null;
     }
     actualInput.innerHTML = '';
+}
+function modalShow() {
+    document.getElementById('actual').classList.add('modal');
+    document.getElementById('actual').innerHTML += `<button onclick="retry()">Reiniciar?</button>`
+    setTimeout(()=>{
+        document.querySelector('.actual button').classList.add('animate');
+        document.getElementById('menores').innerHTML="";
+        document.getElementById('mayores').innerHTML="";
+    },1000)
+    
+}
+function retry() {
+    mayoresArray = [];
+    menoresArray = [];
+    document.getElementById('actual').classList.remove('modal');
+    document.querySelector('.actual button').remove();
+    setTimeout(()=>{
+        document.getElementById('actual').innerHTML="";
+    },500)
+    numero = generaNumero();
+    
+
 }
