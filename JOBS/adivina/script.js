@@ -219,6 +219,7 @@ function resetGame() {
     <div class="cifra"></div>
     <div class="cifra"></div>
     </div>`;
+    pos.reset();
 }
 window.onresize = ()=>Adapta();
 // console.log(solution)
