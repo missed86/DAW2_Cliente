@@ -1,0 +1,127 @@
+@import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;600;700;900&family=Comfortaa:wght@200;300;400;600;700;900');
+* {
+    font-family: "Roboto";
+}
+html,body {
+    height: 100%;
+    width: 100vw;
+}
+/* #juego {
+    float: left;
+    clear: left;
+} */
+body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.fi {
+    margin-top: 1px;
+}
+.retry {
+    width: 100%;
+    height: 56px;
+    background-color: transparent;
+    border: 3px solid gray;
+    font-family: "Roboto";
+    font-size: 15px;
+    margin: 0 2px;
+    
+}
+.logo {
+    font-family: "Comfortaa";
+    text-align: center;
+    font-size: 30px;
+    margin: 10px 0 10px 0;
+    color: rgb(45, 83, 120);
+}
+main {
+    display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+#juego {
+    margin: 5px auto 0 auto;
+    height: 100%;
+    align-items: center;
+}
+#juego .fila {
+    display:flex;
+    margin-bottom: 5px;
+    justify-content: space-around;
+    align-items: center;
+}
+#teclado .fila {
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 5px;
+}
+#teclado .fila button{
+    /* padding:20px; */
+    width: 55px;
+    height: 60px;
+    font-size: 20px;
+    background-color: transparent;
+    border-radius: 8px;
+    margin: 0 2px;
+    line-height: 100%;
+    font-weight: 600;
+    
+}
+#teclado .fila :active {
+    background-color: lightgray;
+    border-color: lightgray;
+}
+.cifra {
+    border: 3px solid gray;
+    width: 50px;
+    height: 50px;
+    margin: 2px;
+    line-height: 50px;
+    text-align: center;
+    font-size: 30px;
+    position: relative;
+    padding:0;
+}
+.cifra.correct{
+    border-color: green;
+    background-color: rgb(186, 235, 186);
+}
+.cifra.maybe{
+    border-color: orange;
+    background-color: rgb(255, 216, 183);
+}
+.cifra.posicion:after {
+    content: '';
+    border-style: solid;
+    border-width:  10px 10px 0px;
+    border-color: transparent black transparent transparent;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+}
+@keyframes tiembla {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+    
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+  
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
+.tiembla {
+    animation: tiembla 0.2s;
+}

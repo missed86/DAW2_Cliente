@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canal de televisión - Mejorado</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="titulo"></h1>
+    <p id="numProgramas"></p>
+    <table id="programacion"></table>
+    <p>
+      Elija género
+      <select id="selector" onchange="mostrarTabla(this.value)">
+        <option value="" selected>-- Todos --</option>
+      </select>
+    </p>
+    <script>
+      function mostrarTabla(value) {
+        console.log(value)
+        const titulo = document.getElementById("titulo");
+        const numProgramas = document.getElementById("numProgramas");
+        const tabla = document.getElementById("programacion");
+        const arrayDias = [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ];
+
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          objetoCanal = JSON.parse(xhr.responseText);
+          fecha = new Date(objetoCanal["fecha"]);
+
+          // console.log(arrayDias[fecha.getDay()]);
+          titulo.innerHTML =
+            "Programación del " +
+            arrayDias[fecha.getDay()].toLowerCase() +
+            " " +
+            fecha.toLocaleDateString();
+            numProgramas.innerHTML =
+              "Número de programas: " + objetoCanal.programas.length;
+            let contenidoTabla = `<tr>
+                                  <th>Hora</th>
+                                  <th>Programa</th>
+                                </tr>`;
+          const generosArray = [];
+          let generosUnicos = [];
+          let contadorProgramas= 0;
+          objetoCanal.programas.forEach((e) => {
+            let generosStr = e.generos.join("/");
+            e.generos.forEach((e) => {
+              generosArray.push(e);
+              if (!generosUnicos.includes(e)){
+                generosUnicos.push(e);
+              }
+            });
+            if (value == undefined || value == '') {
+              contenidoTabla += `<tr><td>${e.hora}</td><td class="programa" data="${generosStr}">${e.nombre}</td></tr>`;
+              let contenidoSelect = `<option value=''>-- Todos --</option>`
+              generosUnicos.forEach((e)=>{
+                contenidoSelect += `<option value="${e}">${e.toUpperCase()}</option>`;
+              })
+              document.getElementById('selector').innerHTML = contenidoSelect;
+            } else {
+              if (e.generos.includes(value)) {
+                contadorProgramas++;
+                contenidoTabla += `<tr><td>${e.hora}</td><td class="programa" data="${generosStr}">${e.nombre}</td></tr>`;
+              }
+              numProgramas.innerHTML = "Número de programas: " + contadorProgramas;
+            }
+          });
+          tabla.innerHTML = contenidoTabla;
+          document.querySelectorAll(".programa").forEach((e) => {
+            e.addEventListener("click", () => {
+              alert(e.getAttribute("data"));
+            });
+          });
+        };
+        xhr.open("GET", "canalDAW.json");
+        xhr.send();
+      }
+      mostrarTabla();
+    </script>
+  </body>
+</html>

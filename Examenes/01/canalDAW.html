@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canal de televisión</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="titulo"></h1>
+    <p id="numProgramas"></p>
+    <table id="programacion"></table>
+    <script>
+      function mostrarTabla() {
+        const titulo = document.getElementById("titulo");
+        const numProgramas = document.getElementById("numProgramas");
+        const tabla = document.getElementById("programacion");
+        const arrayDias = [
+          "Domingo",
+          "Lunes",
+          "Martes",
+          "Miércoles",
+          "Jueves",
+          "Viernes",
+          "Sábado",
+        ];
+
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          objetoCanal = JSON.parse(xhr.responseText);
+          fecha = new Date(objetoCanal["fecha"]);
+
+          // console.log(arrayDias[fecha.getDay()]);
+          titulo.innerHTML =
+            "Programación del " +
+            arrayDias[fecha.getDay()].toLowerCase() +
+            " " +
+            fecha.toLocaleDateString();
+          numProgramas.innerHTML =
+            "Número de programas: " + objetoCanal.programas.length;
+          let contenidoTabla = `<tr>
+                                  <th>Hora</th>
+                                  <th>Programa</th>
+                                </tr>`;
+          objetoCanal.programas.forEach((e) => {
+            let generosStr = e.generos.join("/");
+            contenidoTabla += `<tr><td>${e.hora}</td><td class="programa" data="${generosStr}">${e.nombre}</td></tr>`;
+          });
+          tabla.innerHTML = contenidoTabla;
+          document.querySelectorAll('.programa').forEach((e)=>{
+            e.addEventListener('click',()=>{
+              alert(e.getAttribute('data'));
+            })
+          })
+        };
+        xhr.open("GET", "canalDAW.json");
+        xhr.send();
+      }
+      mostrarTabla();
+    </script>
+  </body>
+</html>

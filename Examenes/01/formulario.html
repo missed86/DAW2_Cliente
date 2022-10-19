@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Identificación mediante el NIF</title>
+    <style>
+      body {
+        text-align: center;
+      }
+      #msg {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="acceso.php" method="POST" onsubmit="return comprobar()">
+      <h1>Identificación mediante el NIF</h1>
+      NIF <input type="text" name="dni" id="dni" /> <span id="msg"></span><br />
+      <p>
+        <input type="submit" value="ENVIAR" />
+        <input type="reset" value="BORRAR" />
+      </p>
+    </form>
+    <script>
+      function comprobar() {
+        const msgSpan = document.getElementById("msg");
+        const dniInput = document.getElementById("dni");
+        const regExDNI = /^\d{8,8}[A-Z]$/;
+        const letras = "TRWAGMYFPDXBNJZSQVHLCKE";
+        
+        if (dniInput.value.trim() == "") {
+          msgSpan.innerHTML = "El campo NIF es obligatorio";
+          return false;
+        }
+        if (regExDNI.test(dniInput.value)) {
+          let numeroDNI = Number(dniInput.value.substring(0, 8));
+          let letraDNI = dniInput.value.slice(-1);
+
+          let calculoLetra = letras.charAt(numeroDNI % 23);
+
+          if (letraDNI != calculoLetra) {
+            msgSpan.innerHTML = "La letra del NIF no corresponde al DNI";
+          } else {
+            return true;
+          }
+        } else {
+          msgSpan.innerHTML = "El campo NIF debe estar formado por 8 dígitos y una letra mayúscula";
+        }
+
+        return false;
+      }
+    </script>
+  </body>
+</html>

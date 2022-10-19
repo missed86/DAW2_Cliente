@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Numbers</title>
+    <link rel="stylesheet" href="style.css?711" />
+  </head>
+  <body>
+    <main>
+      <header class="logo">Numbers</header>
+      <div id="juego">
+        <div class="fila actual">
+          <div class="cifra posicion"></div>
+          <div class="cifra"></div>
+          <div class="cifra"></div>
+          <div class="cifra"></div>
+          <div class="cifra"></div>
+        </div>
+      </div>
+      <div id="teclado">
+        <div class="fila">
+          <button onclick="Escribe(0)">0</button>
+          <button onclick="Escribe(1)">1</button>
+          <button onclick="Escribe(2)">2</button>
+          <button onclick="Escribe(3)">3</button>
+          <button onclick="Escribe(4)">4</button>
+          <button onclick="pos.borra()"><i class="fi fi-br-delete"></i></button>
+        </div>
+        <div class="fila">
+          <button onclick="Escribe(5)">5</button>
+          <button onclick="Escribe(6)">6</button>
+          <button onclick="Escribe(7)">7</button>
+          <button onclick="Escribe(8)">8</button>
+          <button onclick="Escribe(9)">9</button>
+          <button onclick="Comprobar()"><i class="fi fi-br-download"></i></button>
+        </div>
+      </div>
+    </main>
+    <script src="script.js?711"></script>
+  </body>
+</html>
