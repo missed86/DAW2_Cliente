@@ -1,6 +1,7 @@
 const actualInput = document.getElementById("actual");
 let menoresArray = [];
 let mayoresArray = [];
+let wait = false;
 
 let numero = generaNumero();
 console.log(numero)
@@ -12,14 +13,16 @@ function generaNumero() {
 
 document.addEventListener("keydown", (e) => {
 	// console.log(e.key);
-	if (e.key >= 0 && e.key <= 9) {
-		introduceNum(e.key);
-	}
-	if (e.key == "Backspace") {
-		borra();
-	}
-    if (e.key == "Enter")
-        comprueba();
+    if (!wait) {
+        if (e.key >= 0 && e.key <= 9) {
+            introduceNum(e.key);
+        }
+        if (e.key == "Backspace") {
+            borra();
+        }
+        if (e.key == "Enter")
+            comprueba();
+    }
 });
 function introduceNum(num) {
 	actualInput.innerHTML += num;
@@ -61,6 +64,7 @@ function comprueba(){
     if (input == numero) {
         // alert("WIN!\n El numero era "+ numero);
         modalShow();
+        wait = true;
         return null;
     }
     actualInput.innerHTML = '';
@@ -84,6 +88,7 @@ function retry() {
         document.getElementById('actual').innerHTML="";
     },500)
     numero = generaNumero();
+    wait = false;
     
 
 }

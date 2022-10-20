@@ -63,7 +63,7 @@ main {
   height: 50px;
   margin:0;
   padding: 0;
-  margin: 20px 20px;
+  margin: 0px 20px 10px 20px;
 }
 .actual {
   display: flex;
@@ -75,9 +75,18 @@ main {
   width: 100%;
   height: 50px;
   font-size:2rem;
-  top: calc(0%);
+  top: 0;
   transition: all .5s ease-in-out;
   flex-direction: column;
+  position:absolute;
+}
+.actual.modal {
+  z-index: 10;
+  transition: all .5s ease-in-out;
+  top: -200%;
+  height: 300px!important;
+  width: 320px!important;
+  font-size: 5rem;
 }
 .actual button {
   opacity: 0;
@@ -88,15 +97,6 @@ main {
 .actual button.animate {
   transition: all 1s ease-in-out;
   opacity: 100%;
-}
-.actual.modal {
-  z-index: 10;
-  transition: all .5s ease-in-out;
-  top: calc(-200%);
-  height: 300px!important;
-  width: 320px!important;
-  position:absolute;
-  font-size: 5rem;
 }
 #teclado {
   /* max-height: fit-content; */
