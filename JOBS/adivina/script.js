@@ -11,6 +11,11 @@ function generaNumero() {
     return Math.round(Math.random()*100+1);
 }
 
+document.querySelectorAll('button').forEach((e)=>{
+    e.addEventListener('keydown', (e)=> {
+        e.preventDefault();
+    })
+})
 
 document.addEventListener("keydown", (e) => {
 	// console.log(e.key);
@@ -25,9 +30,6 @@ document.addEventListener("keydown", (e) => {
             comprueba();
     }
 });
-// document.getElementsByTagName('button').addEventListener("keydown", (e)=> {
-//     e.preventDefault();
-// })
 function introduceNum(num) {
     if(!wait)
 	actualInput.innerHTML += num;
@@ -82,12 +84,16 @@ function comprueba(){
 }
 function modalShow() {
     document.getElementById('actual').classList.add('modal');
+    document.getElementById('menores').classList.add('hide');
+    document.getElementById('mayores').classList.add('hide');
     document.getElementById('actual').innerHTML += `<button onclick="retry()">Reiniciar?</button>`;
     document.getElementById('actual').innerHTML += `<div class="intentos">Intentos: ${intentos}</button>`;
     setTimeout(()=>{
         document.querySelector('.actual button').classList.add('animate');
         document.getElementById('menores').innerHTML="";
         document.getElementById('mayores').innerHTML="";
+        document.getElementById('menores').classList.remove('hide');
+        document.getElementById('mayores').classList.remove('hide');
     },1000)
     
 }
@@ -118,6 +124,7 @@ document.querySelector('.info').addEventListener('click', () => {
 function tooltip() {
     document.getElementById('tooltip').style.display = 'block';
     document.getElementById('tooltip').classList.add('wake');
+    // console.log(document.getElementById('tooltip'))
     setTimeout(() => {
         document.getElementById('tooltip').classList.remove('wake');
         setTimeout(()=> {

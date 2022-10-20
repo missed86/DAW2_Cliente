@@ -40,20 +40,21 @@ main {
   align-items: center;
   justify-content: space-between;
 }
-#menores {
+.menores {
   flex: 1 1 0px;
   display:flex;
   flex-direction: column;
   justify-content: flex-end;
   align-self: stretch;
+  opacity: 100%;
 }
-#mayores {
+.mayores {
   flex: 1 1 0px;
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
   align-self: stretch;
-
+  opacity: 100%;
 }
 .menor {
   font-size:2rem;
@@ -116,7 +117,6 @@ main {
   transition: none;
 }
 .actual .intentos{
-  opacity: 100%;
   position:absolute;
   top:20px;
   font-size: 15px;
@@ -151,6 +151,10 @@ main {
   line-height: 50%;
   padding:0;
 }
+#teclado .boton:target{
+  /* background-color: red; */
+  border-color: red;
+}
 #teclado .boton:active {
   background-color: rgb(107, 107, 107) ;
 }
@@ -177,9 +181,9 @@ main {
 .tiembla {
   animation: tiembla 0.2s;
 }
-#tooltip {
+.tooltip {
   opacity: 0;
-  display: none;
+  display: block;
   font-size:1rem;
   position:absolute;
   text-align: left;
@@ -191,11 +195,16 @@ main {
   z-index: 10;
   transition: all 0.5s ease-in-out;
 }
-#tooltip.wake {
-  opacity: 100%;
+.wake {
+  opacity: 100% !important;
+  display: block;
   transition: all 0.5s ease-in-out;
 }
-#tooltip::after{
+.hide {
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+}
+.tooltip::after{
   content: " ";
   position: absolute;
   bottom: 100%;  /* At the top of the tooltip */
