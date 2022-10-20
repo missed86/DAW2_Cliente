@@ -25,12 +25,15 @@ document.addEventListener("keydown", (e) => {
             comprueba();
     }
 });
+// document.getElementsByTagName('button').addEventListener("keydown", (e)=> {
+//     e.preventDefault();
+// })
 function introduceNum(num) {
     if(!wait)
 	actualInput.innerHTML += num;
 }
 function borra(){
-    if (actualInput.innerHTML > 0) {
+    if (actualInput.innerHTML.length>0) {
         actualInput.innerHTML = actualInput.innerHTML.substring(0,actualInput.innerHTML.length - 1);
 	}
 }
