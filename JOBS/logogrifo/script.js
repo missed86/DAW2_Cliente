@@ -4,7 +4,6 @@ objetoJuego = {}
 readTextFile('data/comunes-ordenado.json', (data) => {
 	for (let i = 10; i >= 4; i--) {
 		let keys = Object.keys(data[i])
-		let temp = keys[Random(keys.length)]
 		let palabra = keys[Random(keys.length)]
         objetoJuego[Normalizar(palabra)] = data[i][palabra]
     }
@@ -18,7 +17,7 @@ readTextFile('data/comunes-ordenado.json', (data) => {
 		contenido += `<p class="definicion">${definicion}</p>`
 		contenido += `<div class="palabra" data="${palabra}" data-size="${palabra.length}">`
 		cuentaLetras = 0
-		arrayLetras.forEach((letra,i) => {
+		arrayLetras.forEach((letra) => {
 			contenido += `
 			<div class="letracontainer" posicion="${cuentaFilas},${cuentaLetras}" data-letra="${letra}" data-num="${numerarLetras(letra)}">
 				<div class="numletra">${numerarLetras(letra)}</div>
@@ -70,7 +69,7 @@ function Random(total){
 }
 function Normalizar(string){
 	const normalizado = ['a', 'e', 'i', 'o', 'u', 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U', 'A', 'E', 'I', 'O', 'U']
-	const busqueda = 		['á', 'é', 'í', 'ó', 'ú', 'ä', 'ë', 'ï', 'ö', 'ü', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ä', 'Ë', 'Ï', 'Ö', 'Ü']
+	const busqueda = 	['á', 'é', 'í', 'ó', 'ú', 'ä', 'ë', 'ï', 'ö', 'ü', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ä', 'Ë', 'Ï', 'Ö', 'Ü']
 
 	const input = string.split('')
 	const output = input.map(e=>(busqueda.includes(e))?normalizado[busqueda.indexOf(e)]:e)
