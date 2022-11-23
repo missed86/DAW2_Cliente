@@ -35,3 +35,15 @@ for (let i = 65; i < 91; i++) {
 }
 
 root.appendChild(fragment)
+
+removeChildrenNodes(root)
+
+/**
+ * @param {HTMLElement} element
+ */
+
+function removeChildrenNodes(element) {
+  while (element.firstElementChild) {
+    element.removeChild(element.firstElementChild)
+  }
+}
