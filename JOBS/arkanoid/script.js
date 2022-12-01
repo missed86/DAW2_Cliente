@@ -36,16 +36,11 @@ class asteroide {
     }
 }
 const asteroides = []
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
-asteroides.push(new asteroide)
+const numAsteroides = 50
+
+for (let i = 0; i < numAsteroides; i++) { 
+    asteroides.push(new asteroide)
+}
 
 asteroides.forEach(e => {
     e.draw();
