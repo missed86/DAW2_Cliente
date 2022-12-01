@@ -1,7 +1,7 @@
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext("2d")
 
-const velocity = 5;
+const velocity = 1;
 
 const nave = ({x=0, y=0}) => ({
     x,
@@ -19,10 +19,28 @@ const nave = ({x=0, y=0}) => ({
         if (Keys.left) this.x -= velocity
         if (Keys.right) this.x += velocity
         outOfBounds(this.x, this.y)
+    },
+    collision() {
+        var temp = 0
+        asteroides.forEach(e => {
+            if(temp != this.x) {
+                // console.log(this.x, Math.floor(e.x))
+                temp = this.x
+            }
+            if((this.x+this.w >= Math.floor(e.x) || this.x+this.w <= Math.floor(e.x)) && this.y+this.h == Math.floor(e.y)) {
+                // console.log(jugador.x+jugador.w - e.x)
+                alert("perdiste")
+                this.x = 0
+                this.y = 0
+            }
+        });
     }
+
 })
 
 class asteroide {
+    x = 0
+    y = 0
     w = 20
     h = 20
     color = 'red'
@@ -41,10 +59,6 @@ const numAsteroides = 50
 for (let i = 0; i < numAsteroides; i++) { 
     asteroides.push(new asteroide)
 }
-
-asteroides.forEach(e => {
-    e.draw();
-});
 
 
 const jugador = nave({})
@@ -84,6 +98,7 @@ function update() {
     ctx.clearRect(0,0,canvas.width,canvas.height)
     jugador.draw()
     jugador.move()
+    jugador.collision()
     requestAnimationFrame(update)
     asteroides.forEach(e => {
         e.draw();
