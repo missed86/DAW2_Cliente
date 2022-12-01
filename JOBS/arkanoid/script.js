@@ -3,6 +3,27 @@ const ctx = canvas.getContext("2d")
 
 const velocity = 2;
 
+//Movimiento mediante teclado
+const Keys = {
+    up: false,
+    down: false,
+    left: false,
+    right: false
+};
+
+document.body.addEventListener('keydown', (e)=>{
+    if(e.key == 'ArrowUp') Keys.up = true;
+    if(e.key == 'ArrowDown') Keys.down = true;
+    if(e.key == 'ArrowLeft') Keys.left = true;
+    if(e.key == 'ArrowRight') Keys.right = true;
+}) 
+document.body.addEventListener('keyup', (e)=>{
+    if(e.key == 'ArrowUp') Keys.up = false;
+    if(e.key == 'ArrowDown') Keys.down = false;
+    if(e.key == 'ArrowLeft') Keys.left = false;
+    if(e.key == 'ArrowRight') Keys.right = false;
+}) 
+
 // Jugador
 const Jugador = {
     x:0,
@@ -88,32 +109,20 @@ class Meta {
 const meta = new Meta()
 
 // Genera instancias de asteroides segun la variable numAsteroides
-var asteroides = []
 const numAsteroides = 50
-for (let i = 0; i < numAsteroides; i++) { 
-    asteroides.push(new Asteroide(i))
-}    
+var asteroides = []
+function generaAsteroides(){
+    asteroides = []
+    for (let i = 0; i < numAsteroides; i++) { 
+        asteroides.push(new Asteroide(i))
+    }    
+}
+newGame()
 
-//Movimiento mediante teclado
-const Keys = {
-    up: false,
-    down: false,
-    left: false,
-    right: false
-};
-
-document.body.addEventListener('keydown', (e)=>{
-    if(e.key == 'ArrowUp') Keys.up = true;
-    if(e.key == 'ArrowDown') Keys.down = true;
-    if(e.key == 'ArrowLeft') Keys.left = true;
-    if(e.key == 'ArrowRight') Keys.right = true;
-}) 
-document.body.addEventListener('keyup', (e)=>{
-    if(e.key == 'ArrowUp') Keys.up = false;
-    if(e.key == 'ArrowDown') Keys.down = false;
-    if(e.key == 'ArrowLeft') Keys.left = false;
-    if(e.key == 'ArrowRight') Keys.right = false;
-}) 
+function newGame() {
+    generaAsteroides()
+    reset()
+}
 
 function reset() {
     Jugador.x = 0
@@ -134,15 +143,18 @@ function outOfBounds(x,y){
 }
 
 function collision(a, b, borra = false, compruebaMeta = false) {
-    if  (a.x < b.x + b.w &&
+    if (a.x < b.x + b.w &&
         a.x + a.w > b.x &&
         a.y < b.y + b.h &&
         a.h + a.y > b.y) {
-        if(borra) delete asteroides[a.id]
+        if(borra) {
+            delete asteroides[a.id]
+            reset()
+        }
         if(compruebaMeta) {
             alert('ganas!')
+            newGame()
         }
-        reset()
     }
 }
 
