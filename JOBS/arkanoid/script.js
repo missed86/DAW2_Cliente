@@ -1,176 +1,123 @@
-const canvas = document.getElementById('canvas')
+const puntuacionSpan = document.getElementById("puntuacion")
+const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
 
-const velocity = 2;
+const velocity = 10
 
 //Movimiento mediante teclado
 const Keys = {
-    up: false,
-    down: false,
-    left: false,
-    right: false
+  left: false,
+  right: false,
 };
 
-document.body.addEventListener('keydown', (e)=>{
-    if(e.key == 'ArrowUp') Keys.up = true;
-    if(e.key == 'ArrowDown') Keys.down = true;
-    if(e.key == 'ArrowLeft') Keys.left = true;
-    if(e.key == 'ArrowRight') Keys.right = true;
-}) 
-document.body.addEventListener('keyup', (e)=>{
-    if(e.key == 'ArrowUp') Keys.up = false;
-    if(e.key == 'ArrowDown') Keys.down = false;
-    if(e.key == 'ArrowLeft') Keys.left = false;
-    if(e.key == 'ArrowRight') Keys.right = false;
-}) 
+document.body.addEventListener("keydown", (e) => {
+  if (e.key == "ArrowLeft") {
+    if (player.x > 0) player.x -= velocity
+  }
+  if (e.key == "ArrowRight") {
+    if (player.x < canvas.width - player.w) player.x += velocity
+  }
+  // console.log(player.x)
+});
 
-// Jugador
-const Jugador = {
-    x:0,
-    y:0,
-    w:20,
-    h:20,
-    color: 'limegreen',
-    draw() {
-        ctx.fillStyle = this.color
-        ctx.fillRect(this.x, this.y, this.w, this.h)
-    },
-    move() {
-        if (Keys.up) this.y -= velocity
-        if (Keys.down) this.y += velocity
-        if (Keys.left) this.x -= velocity
-        if (Keys.right) this.x += velocity
-        outOfBounds(this.x, this.y)
-    }
-
+// Clases
+class Jugador {
+  x = 0
+  y = canvas.height - 70
+  w = 100
+  h = 10
+  color = "white"
+  constructor() {
+    this.x = Math.floor((canvas.width - this.w) / 2)
+  }
+  draw() {
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.w, this.h)
+  }
 }
-//Asteroide
-class Asteroide {
-    id = 0
-    x = 0
-    y = 0
-    w = 20
-    h = 20
-    color = 'red'
-    constructor(id) {
-        this.id = id
-        this.x = Math.random()*(canvas.width-this.w)
-        this.y = Math.random()*(canvas.height-this.h)
-    }
-    draw() {
-        ctx.fillStyle = this.color
-        ctx.fillRect(this.x, this.y, this.w, this.h)
-    }
-    collision(input){
-        if  (this.x < input.x + input.w &&
-            this.x + this.w > input.x &&
-            this.y < input.y + input.h &&
-            this.h + this.y > input.y) {
-            delete asteroides[this.id]
-            reset()
-        }
-    }
+class Bola {
+  x = 80
+  y = 50
+  radio = 5
+  direccion = 135
+  velX = 3
+  velY = 2
+  color = "white"
+  draw() {
+    ctx.beginPath()
+    ctx.arc(this.x, this.y, this.radio, 0, 2 * Math.PI)
+    ctx.fillStyle = this.color
+    ctx.fill()
+  }
+  move() {
+    this.x += this.velX
+    this.y += this.velY
+  }
 }
-
-//Meta
-class Meta {
+class Ladrillo {
     x=0
     y=0
-    w=20
-    h=20
-    color = 'orange'
-    //posiciones = 1: Nordeste, 2: Sureste, 3:Suroeste
-    constructor() {
-        let posicion = Math.floor(Math.random()*3)+1
-        switch (posicion) {
-            case 1:
-                this.x = canvas.width - this.w
-                this.y = 0
-                break;
-                case 2:
-                    this.x = canvas.width - this.w
-                this.y = canvas.height - this.h
-                break;
-                case 3:
-                this.x = 0
-                this.y = canvas.height - this.h
-                break;
-            default:
-                this.x = canvas.width - this.w
-                this.y = canvas.height - this.h
-                break;
-        }
+    w=40
+    h=10
+    color ='gray'
+    constructor(x,y, w,h) {
+        this.x = x
+        this.y = y
+        this.w = w
+        this.h = h
     }
     draw() {
-        ctx.fillStyle = this.color
+        ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.w, this.h)
     }
 }
-const meta = new Meta()
 
-// Genera instancias de asteroides segun la variable numAsteroides
-const numAsteroides = 50
-var asteroides = []
-function generaAsteroides(){
-    asteroides = []
-    for (let i = 0; i < numAsteroides; i++) { 
-        asteroides.push(new Asteroide(i))
-    }    
-}
-newGame()
+//Instancia al principio
+var player = new Jugador()
+var bola = new Bola()
+var ladrillosArray = []
+const numLadrillos = 10
+const numLadrillosFilas = 5
+const margenLadrillos = 5
+const MSLadrillos = 40
 
-function newGame() {
-    generaAsteroides()
-    reset()
-}
-
-function reset() {
-    Jugador.x = 0
-    Jugador.y = 0
-    Keys.up = false;
-    Keys.down = false;
-    Keys.left = false;
-    Keys.right = false;
-    
-}
-
-//Evita que el jugador salga del canvas
-function outOfBounds(x,y){
-    if(x <= 0) Jugador.x = 0
-    if(x >= canvas.width-Jugador.w) Jugador.x = canvas.width - Jugador.w 
-    if(y <= 0) Jugador.y = 0
-    if(y >= canvas.height-Jugador.h) Jugador.y = canvas.height - Jugador.h 
-}
-
-function collision(a, b, borra = false, compruebaMeta = false) {
-    if (a.x < b.x + b.w &&
-        a.x + a.w > b.x &&
-        a.y < b.y + b.h &&
-        a.h + a.y > b.y) {
-        if(borra) {
-            delete asteroides[a.id]
-            reset()
-        }
-        if(compruebaMeta) {
-            alert('ganas!')
-            newGame()
+function generaLadrillos(){
+    let w = (canvas.width/numLadrillos)-margenLadrillos
+    for (let j = 0; j < numLadrillosFilas; j++) {
+        for (let i = 0; i < numLadrillos; i++) {
+           ladrillosArray.push(new Ladrillo((w+margenLadrillos)*i,j+MSLadrillos))
         }
     }
 }
+generaLadrillos()
 
-//Refresco de canvas
-function update() {
-    ctx.clearRect(0,0,canvas.width,canvas.height)
-    meta.draw();
-    Jugador.draw()
-    Jugador.move()
-    requestAnimationFrame(update)
-    asteroides.forEach(asteroide => {
-        asteroide.draw();
-        collision(asteroide, Jugador, true);// jugador
-        collision(asteroide, meta, true);   //meta
-    });
-    collision(meta, Jugador,false , true);  //comprueba si has llegado a la meta
-    
+function collitions(bola) {
+  //Detecta el borde del canvas y cambia la direccion
+  if (bola.x > canvas.width - bola.radio) bola.velX = -bola.velX
+  if (bola.x < 0 + bola.radio) bola.velX = -bola.velX
+  if (bola.y > canvas.height - bola.radio) bola.velY = -bola.velY
+  if (bola.y < 0 + bola.radio) bola.velY = -bola.velY
+
+  //Colisiones de barra de jugador
+  if (
+    bola.y > player.y - bola.radio &&
+    bola.x > player.x &&
+    bola.x < player.x + player.w - bola.radio
+  )
+    bola.velY = -bola.velY
 }
+
+//Actualizacion del canvas
+function update() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  collitions(bola)
+  player.draw()
+  bola.draw()
+  bola.move()
+  ladrillosArray.forEach(e=>{
+      e.draw()
+  })
+  requestAnimationFrame(update)
+}
+
 requestAnimationFrame(update)

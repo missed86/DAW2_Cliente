@@ -1,7 +1,8 @@
+const puntuacionSpan = document.getElementById('puntuacion')
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext("2d")
 
-const velocity = 300;
+const velocity = 200;
 
 //Movimiento mediante teclado
 const Keys = {
@@ -12,11 +13,19 @@ const Keys = {
 };
 
 document.body.addEventListener('keydown', (e)=>{
-    if(e.key == 'ArrowUp') Partida.snake.direccion = 'up'
-    if(e.key == 'ArrowDown') Partida.snake.direccion = 'down'
-    if(e.key == 'ArrowLeft') Partida.snake.direccion = 'left'
-    if(e.key == 'ArrowRight') Partida.snake.direccion = 'right'
-    console.log(Partida.snake.direccion)
+    if(e.key == 'ArrowUp') {
+        if (Partida.snake.direccion != 'down') Partida.snake.direccion = 'up'
+    }
+    if(e.key == 'ArrowDown')  {
+        if (Partida.snake.direccion != 'up') Partida.snake.direccion = 'down'
+    }
+    if(e.key == 'ArrowLeft')  {
+        if (Partida.snake.direccion != 'right') Partida.snake.direccion = 'left'
+    }
+    if(e.key == 'ArrowRight')  {
+        if (Partida.snake.direccion != 'left') Partida.snake.direccion = 'right'
+    }
+    // console.log(Partida.snake.direccion)
 }) 
 
 // document.body.addEventListener('keydown', (e)=>{
@@ -80,12 +89,36 @@ class Snake {
             this.x--
             temp = [this.arrayPosiciones[this.arrayPosiciones.length-1][0]-1,this.arrayPosiciones[this.arrayPosiciones.length-1][1]]
         }
-        // console.log([Partida.comida.x,Partida.comida.y], Partida.snake.arrayPosiciones[Partida.snake.arrayPosiciones.length-1])
-        if(Partida.comida.x == Partida.snake.x && Partida.comida.y == Partida.snake.y) {
-            console.log('ñam')
+        if(temp[0] > celdasX-1) temp[0] = 0
+        if(temp[0] < 0) temp[0] = celdasX-1
+        if(temp[1] > celdasY-1) temp[1] = 0
+        if(temp[1] < 0) temp[1] = celdasY-1
+        if(Partida.comida.x == temp[0] && Partida.comida.y == temp[1]) {
+            // console.log('ñam')
             this.longitud++
+            puntuacionSpan.innerHTML = ++Partida.puntos
             Partida.generaComida()
         }
+        if(Partida.superComida != null){
+            if(Partida.superComida.x == temp[0] && Partida.superComida.y == temp[1]) {
+                // console.log('ñam')
+                this.longitud += Partida.superComida.valor
+                Partida.puntos += Partida.superComida.valor
+                puntuacionSpan.innerHTML = Partida.puntos
+                Partida.destruyeSuperComida()
+                // superComidaInterval = setInterval(()=>{
+
+                // })
+            }
+        }
+        
+        // Detecta si la posicion contiene un trozo de serpiente
+        if (JSON.stringify(this.arrayPosiciones).includes(JSON.stringify(temp))) {
+            alert('has muerto')
+            Partida.snake = new Snake;
+            Partida.puntos = 0
+            puntuacionSpan.innerHTML = Partida.puntos
+        } 
         this.arrayPosiciones.push(temp)
         if (this.arrayPosiciones.length > this.longitud) this.arrayPosiciones.shift()
 
@@ -103,27 +136,72 @@ class Comida {
         CanvasGrid.draw(this.x,this.y,this.color)
     }
 }
-const Partida = {
-    snake: new Snake,
-    puntos:0,
-    comida: new Comida(),
-    generaComida() {
-        this.comida = new Comida()
+
+class SuperComida {
+    x=0
+    y=0
+    color = 'orange'
+    valor = 5
+    constructor(){
+        this.x= Math.floor(Math.random()*celdasX)
+        this.y= Math.floor(Math.random()*celdasY)
     }
-    
-}
-Partida
-//Refresco de canvas
-function update() {
-    setInterval(()=>{
-        ctx.clearRect(0,0,canvas.width,canvas.height)
-        // console.log(Partida.snake.arrayPosiciones)
-        Partida.comida.draw()
-        Partida.snake.arrayPosiciones.forEach(e => {
-            CanvasGrid.draw(e[0],e[1],Partida.snake.color)
-        })
-        Partida.snake.move()
-    },velocity)
+    draw() {
+        CanvasGrid.draw(this.x,this.y,this.color)
+    }
 }
 
-requestAnimationFrame(update)
+const superComidaTimer = {
+    timeMin: 10000,
+    timeMax: 50000,
+    timeActive: 10000
+}
+
+const Partida = {
+    snake: new Snake,
+    puntos: 0,
+    comida: new Comida,
+    superComida: null,
+    generaComida() {
+        this.comida = new Comida
+    },
+    generaSuperComida() {
+        this.superComida = new SuperComida
+        superComidaTimeout =setTimeout(()=> 
+            this.destruyeSuperComida()
+        ,superComidaTimer.timeActive)
+    },
+    destruyeSuperComida() {
+        if(this.superComida != null) {
+            let randomTime = Math.floor(Math.random()*(superComidaTimer.timeMax-superComidaTimer.timeMin)+superComidaTimer.timeMin)
+            console.log(randomTime)
+            this.superComida = null
+            superComidaTimeout = setTimeout(()=>{
+                this.generaSuperComida()
+            }, randomTime)
+        }
+    }
+}
+
+var superComidaTimeout
+
+setTimeout(()=> {
+    Partida.generaSuperComida()
+}, superComidaTimer.timeMin)
+
+//Refresco de canvas
+// function update() {
+setInterval(()=>{
+    ctx.clearRect(0,0,canvas.width,canvas.height)
+    // console.log(Partida.snake.arrayPosiciones)
+    Partida.comida.draw()
+    if(Partida.superComida != null)
+        Partida.superComida.draw()
+    Partida.snake.arrayPosiciones.forEach(e => {
+        CanvasGrid.draw(e[0],e[1],Partida.snake.color)
+    })
+    Partida.snake.move()
+},velocity)
+// }
+
+// requestAnimationFrame(update)
