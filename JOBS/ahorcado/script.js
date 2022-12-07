@@ -72,7 +72,7 @@ function genera_palabra(archivo, letras) {
 			if (palabra[i] == " ") {
 				html += `</div><div class='palabra'>`;
 			} else {
-				if (palabra[i] == "/" || palabra[i] == ",") {
+				if (palabra[i] == "/" || palabra[i] == "," || palabra[i] == "'") {
 					console.log(palabra[i]);
 					html += `<div class="letra">${palabra[i]}</div>`;
 				} else {

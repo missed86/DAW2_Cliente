@@ -12,19 +12,19 @@ const Keys = {
 
 document.body.addEventListener("keydown", (e) => {
   if (e.key == "ArrowLeft") {
-    Keys.left = true
+    Keys.left = true;
   }
   if (e.key == "ArrowRight") {
-    Keys.right = true
+    Keys.right = true;
   }
   // console.log(player.x)
 });
 document.body.addEventListener("keyup", (e) => {
   if (e.key == "ArrowLeft") {
-    Keys.left = false
+    Keys.left = false;
   }
   if (e.key == "ArrowRight") {
-    Keys.right = false
+    Keys.right = false;
   }
   // player.inercia *= 0.9;
   // console.log(player.x)
@@ -50,14 +50,14 @@ class Jugador {
   move() {
     this.x += this.inercia;
 
-    if(Keys.left) {
+    if (Keys.left) {
       this.inercia -= this.velocity;
       if (player.x > 0) player.x -= this.velocity;
     }
-    if(Keys.right) {
+    if (Keys.right) {
       this.inercia += this.velocity;
       if (player.x < canvas.width - player.w) player.x += this.velocity;
-    }  
+    }
     this.inercia *= 0.5;
     if (this.x < 0) {
       this.x = 0;
@@ -68,18 +68,24 @@ class Jugador {
     }
   }
   collision() {
-    let variacion = (Math.random()*2-1)/10;
-    console.log(bola.velX,bola.velY)
-    if  (this.x < bola.x + bola.radio &&
+    if (
+      this.x < bola.x + bola.radio &&
       this.x + this.w > bola.x &&
       this.y < bola.y + bola.radio &&
-      this.h + this.y > bola.y) {
-        if (bola.x < this.x || bola.x > this.x + this.w) {
-          bola.velX = -bola.velX+variacion;
-        } else {
-          bola.velY = -bola.velY+variacion;
-        }
-        return true
+      this.h + this.y > bola.y
+    ) {
+      // Comprobar si la bola está colisionando con el lado izquierdo o derecho de la barra
+      if (bola.x < this.x) {
+        // Colisión con el lado izquierdo: cambiar la dirección de la bola en el eje X
+        bola.velX = -bola.velX;
+      } else if (bola.x > this.x + this.w) {
+        // Colisión con el lado derecho: cambiar la dirección de la bola en el eje X
+        bola.velX = -bola.velX;
+      } else {
+        // Colisión con el lado superior o inferior de la barra: cambiar la dirección de la bola en el eje Y
+        bola.velY = -bola.velY;
+      }
+      return true;
     }
   }
 }
@@ -88,8 +94,9 @@ class Bola {
   y = 200;
   radio = 5;
   direccion = 135;
-  velX = 2;
-  velY = 3;
+  velocity = 1.5;
+  velX = 2*this.velocity;
+  velY = 3*this.velocity;
   color = "white";
   draw() {
     ctx.beginPath();
@@ -119,18 +126,26 @@ class Ladrillo {
     ctx.fillRect(this.x, this.y, this.w, this.h);
   }
   collision() {
-    if  (this.x < bola.x + bola.radio &&
+    if (
+      this.x < bola.x + bola.radio &&
       this.x + this.w > bola.x &&
       this.y < bola.y + bola.radio &&
-      this.h + this.y > bola.y) {
-        ladrillosArray = ladrillosArray.filter((ladrillo) => ladrillo !== this);
-        puntuacionSpan.innerHTML = ++player.puntos
-        if (bola.x < this.x || bola.x > this.x + this.w) {
-          bola.velX = -bola.velX;
-        } else {
-          bola.velY = -bola.velY;
-        }
-        return true
+      this.h + this.y > bola.y
+    ) {
+      ladrillosArray = ladrillosArray.filter((ladrillo) => ladrillo !== this);
+      puntuacionSpan.innerHTML = ++player.puntos;
+
+      if (ladrillosArray.length <= 0) {
+        alert("WIN");
+        reset();
+      }
+
+      if (bola.x < this.x || bola.x > this.x + this.w) {
+        bola.velX = -bola.velX;
+      } else {
+        bola.velY = -bola.velY;
+      }
+      return true;
     }
   }
 }
@@ -141,6 +156,7 @@ var bola = new Bola();
 var ladrillosArray = [];
 
 function generaLadrillos() {
+  ladrillosArray = [];
   const numLadrillos = 7;
   const numLadrillosFilas = 5;
   const margenLadrillos = 5;
@@ -170,9 +186,13 @@ function collisions(bola) {
   //Detecta el borde del canvas y cambia la direccion
   if (bola.x > canvas.width - bola.radio) bola.velX = -bola.velX;
   if (bola.x < 0 + bola.radio) bola.velX = -bola.velX;
-  if (bola.y > canvas.height - bola.radio) bola.velY = -bola.velY;
   if (bola.y < 0 + bola.radio) bola.velY = -bola.velY;
 
+  if (bola.y > canvas.height + bola.radio) {
+    // bola.velY = -bola.velY;
+    alert("perdiste wey");
+    reset();
+  }
   //Colisiones de barra de jugador
   // if (
   //   bola.y > player.y - bola.radio &&
@@ -180,6 +200,14 @@ function collisions(bola) {
   //   bola.x < player.x + player.w - bola.radio
   // )
   //   bola.velY = -bola.velY;
+}
+function reset() {
+  generaLadrillos();
+  player = new Jugador();
+  bola = new Bola();
+  for (const key in Keys) {
+    Keys[key] = false;
+  }
 }
 
 //Actualizacion del canvas

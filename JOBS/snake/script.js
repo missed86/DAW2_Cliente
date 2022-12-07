@@ -129,8 +129,12 @@ class Comida {
     y=0
     color = 'white'
     constructor(){
+        const snakePosiciones = typeof Partida !== undefined ? Partida.snake.arrayPosiciones : []
+        
+        do {
         this.x= Math.floor(Math.random()*celdasX)
         this.y= Math.floor(Math.random()*celdasY)
+        } while (JSON.stringify(snakePosiciones).includes(JSON.stringify([this.x,this.y])))
     }
     draw() {
         CanvasGrid.draw(this.x,this.y,this.color)
