@@ -1,4 +1,4 @@
-const puntuacionSpan = document.getElementById("puntuacion");
+// const puntuacionSpan = document.getElementById("puntuacion");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -83,6 +83,7 @@ class Jugador {
         bola.velX = -bola.velX;
       } else {
         // Colisión con el lado superior o inferior de la barra: cambiar la dirección de la bola en el eje Y
+        bola.y = player.y-1;
         bola.velY = -bola.velY;
       }
       return true;
@@ -90,13 +91,13 @@ class Jugador {
   }
 }
 class Bola {
-  x = 30;
-  y = 200;
+  x = canvas.width/2+5;
+  y = canvas.height-100;
   radio = 5;
   direccion = 135;
   velocity = 1.5;
   velX = 2*this.velocity;
-  velY = 3*this.velocity;
+  velY = -3*this.velocity;
   color = "white";
   draw() {
     ctx.beginPath();
@@ -133,7 +134,8 @@ class Ladrillo {
       this.h + this.y > bola.y
     ) {
       ladrillosArray = ladrillosArray.filter((ladrillo) => ladrillo !== this);
-      puntuacionSpan.innerHTML = ++player.puntos;
+      // puntuacionSpan.innerHTML = ++player.puntos;
+      player.puntos++;
 
       if (ladrillosArray.length <= 0) {
         alert("WIN");
@@ -155,10 +157,15 @@ var player = new Jugador();
 var bola = new Bola();
 var ladrillosArray = [];
 
+function generaPuntuacion() {
+  ctx.font = "20px Arial";
+  ctx.fillText(`Puntuación: ${player.puntos}`, 5, 25);
+}
+
 function generaLadrillos() {
   ladrillosArray = [];
-  const numLadrillos = 7;
-  const numLadrillosFilas = 5;
+  const numLadrillos = 8;
+  const numLadrillosFilas = 10;
   const margenLadrillos = 5;
   const margenSuperiorLadrillos = 40;
   const margenEntreFilas = 5;
@@ -217,8 +224,9 @@ function update() {
   player.draw();
   player.collision();
   player.move();
-  bola.draw();
   bola.move();
+  bola.draw();
+  generaPuntuacion();
   ladrillosArray.forEach((e) => {
     e.draw();
     e.collision();
