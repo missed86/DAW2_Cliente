@@ -1,18 +1,21 @@
 var palabra = "";
 var ahorcado = 1;
 
+
+// Función de resetear la partida. Activa el menu de selección de categoría.
 function reset() {
 	document.querySelectorAll(".tecla").forEach((e, i) => {
 		e.style.backgroundColor = "lightgrey";
 	});
 	document.getElementById("resuelve").innerHTML = "";
 
-	//Cambio de ventanas
 	ahorcado = 0;
 	document.getElementById("imgAhorcado").src = "assets/ahorcado/1.png";
 	document.getElementById("ahorcado").style.display = "none";
 	document.getElementById("menu").style.display = "flex";
 }
+
+// Función para cargar el archivo JSON pedido por argumentos
 function readTextFile(file, callback) {
 	var rawFile = new XMLHttpRequest();
 	rawFile.overrideMimeType("application/json");
@@ -24,6 +27,8 @@ function readTextFile(file, callback) {
 	};
 	rawFile.send(null);
 }
+
+// Función para mostrar un modal para indicar si el jugador gana o pierde
 function modalOpen(status) {
 	const img = document.getElementById("statusImg");
 	const modalP = document.getElementById("modalP");
@@ -40,7 +45,8 @@ function modalOpen(status) {
 		document.getElementById("modal-window").classList.add("animated");
 	}, 10);
 }
-// modalOpen("victoria");
+
+// Funcion para cerrar el modal anterior
 function modalClose() {
 	document.getElementById("modal-bg").classList.remove("animated");
 	document.getElementById("modal-window").classList.remove("animated");
@@ -48,10 +54,12 @@ function modalClose() {
 		document.getElementById("modal-bg").style.display = "none";
 	}, 500);
 }
+
+//Función para generar palabras. Lee el archivo JSON correspondiente, selecciona una palabra al azar y separa cada letra creando 
+//un div por cada letra y escribe el atributo data con la letra normalizada (sin tildes)
 function genera_palabra(archivo, letras) {
 	reset();
 	ahorcado = 1;
-	// let itLetras = document.getElementById('itLetras').value + "";
 
 	readTextFile("data/" + archivo + ".json", function (text) {
 		let data = JSON.parse(text);
@@ -65,7 +73,7 @@ function genera_palabra(archivo, letras) {
 			palabra =
 				data[Math.floor(Math.random() * (data.length + 1))].toLowerCase();
 		}
-		// console.log(data)
+		
 
 		let html = `<div class='palabra'>`;
 		for (let i = 0; i < palabra.length; i++) {
@@ -92,46 +100,55 @@ function genera_palabra(archivo, letras) {
 	// Entrada por teclado
 	window.addEventListener("keydown", pulsar);
 	function pulsar(e) {
-		let tecla = document.querySelector(`.tecla[data="${e.keyCode}"]`);
-		let letra = tecla.innerHTML.toLowerCase();
-		if (tecla.style.backgroundColor == "lightgrey" && ahorcado != 0) {
-			if (ahorcado < 7) {
-				if (quitarTildes(palabra).includes(letra)) {
-					document.querySelector(
-						`.tecla[data="${e.keyCode}"]`
-					).style.backgroundColor = "green";
-					document
-						.querySelectorAll(`.letra[data="${letra.toUpperCase()}"]`)
-						.forEach((e) => {
-							e.innerHTML = letra.toUpperCase();
-							e.setAttribute("status", "on");
-						});
-					if (document.querySelectorAll('.letra[status="off"]').length == 0) {
-						modalOpen("victoria");
-                        document.getElementById("imgAhorcado").src =
-                            "assets/ahorcado/win.png";
+		
+		//Cierra el modal con Enter o Escape solo si esta activo
+		if ((e.key == 'Enter' || e.key == "Escape") && document.getElementById("modal-bg").style.display == "flex") {
+			modalClose()
+		} else if (e.key == "Escape") { // Pulsando Escape vuelve al menu principal si el modal esta oculto
+			reset()
+		} else if (e.keyCode > 64 && e.keyCode < 193) { // Entrada de texto
+			let tecla = document.querySelector(`.tecla[data="${e.keyCode}"]`);
+			let letra = tecla.innerHTML.toLowerCase();
+			if (tecla.style.backgroundColor == "lightgrey" && ahorcado != 0) {
+				if (ahorcado < 7) {
+					if (quitarTildes(palabra).includes(letra)) {
+						document.querySelector(
+							`.tecla[data="${e.keyCode}"]`
+						).style.backgroundColor = "green";
+						document
+							.querySelectorAll(`.letra[data="${letra.toUpperCase()}"]`)
+							.forEach((e) => {
+								e.innerHTML = letra.toUpperCase();
+								e.setAttribute("status", "on");
+							});
+						if (document.querySelectorAll('.letra[status="off"]').length == 0) {
+							modalOpen("victoria");
+													document.getElementById("imgAhorcado").src =
+															"assets/ahorcado/win.png";
+						}
+					} else {
+						ahorcado++;
+						document.getElementById("imgAhorcado").src =
+							"assets/ahorcado/" + ahorcado + ".png";
+						document.querySelector(
+							`.tecla[data="${e.keyCode}"]`
+						).style.backgroundColor = "red";
+						if (ahorcado == 7) {
+							modalOpen("derrota");
+							document.querySelectorAll(`.letra`).forEach((e) => {
+								if (e.innerHTML == "_") {
+									e.innerHTML = e.getAttribute("data");
+									e.style.color = "red";
+								}
+							});
+						}
 					}
 				} else {
-					ahorcado++;
-					document.getElementById("imgAhorcado").src =
-						"assets/ahorcado/" + ahorcado + ".png";
-					document.querySelector(
-						`.tecla[data="${e.keyCode}"]`
-					).style.backgroundColor = "red";
-					if (ahorcado == 7) {
-						modalOpen("derrota");
-						document.querySelectorAll(`.letra`).forEach((e) => {
-							if (e.innerHTML == "_") {
-								e.innerHTML = e.getAttribute("data");
-								e.style.color = "red";
-							}
-						});
-					}
+					ahorcado = 7;
 				}
-			} else {
-				ahorcado = 7;
 			}
 		}
+
 	}
 	// Entrada por clicks
 	document.querySelectorAll(".tecla").forEach((e, i) => {
