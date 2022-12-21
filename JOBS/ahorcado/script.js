@@ -74,7 +74,8 @@ function genera_palabra(archivo, letras) {
 				data[Math.floor(Math.random() * (data.length + 1))].toLowerCase();
 		}
 		
-
+		// Aqui se genera un div por cada palabra y a su vez un div por cada letra, asi podemos separar las palabras.
+		// Tambien detecta si es un caracter extraño y lo imprime para saber que existe a modo de pista.
 		let html = `<div class='palabra'>`;
 		for (let i = 0; i < palabra.length; i++) {
 			if (palabra[i] == " ") {
