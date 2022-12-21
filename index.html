@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .dragging {
+        background-color: red !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="drop-area"
+      style="background-color: blue; width: 100px; height: 100px"
+    ></div>
+    <script>
+      const dropArea = document.getElementById("drop-area");
+
+      document.addEventListener("drop", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.classList.remove("dragging");
+
+        // Obtén el archivo arrastrado
+        const file = event.dataTransfer.files[0];
+
+        // Procesa el archivo arrastrado
+        console.log(file.name);
+      });
+
+      document.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.classList.add("dragging");
+      });
+
+      document.addEventListener("dragleave", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropArea.classList.remove("dragging");
+      });
+    </script>
+  </body>
+</html>

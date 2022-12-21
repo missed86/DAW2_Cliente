@@ -1,0 +1,15 @@
+p {
+  margin-left: 2em;
+}
+h2 {
+  margin-left: 3em;
+}
+fieldset {
+  margin-left: 5em;
+  margin-right: 5em;
+  margin-top: 2em;
+}
+
+.error {
+  border-color: red;
+}

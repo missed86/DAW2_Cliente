@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ej5</title>
+    </head>
+    <body>
+    
+    <form action="#saludo" onsubmit="return enviarSaludo">
+        <label for="nombre">Nombre:</label><input type="text" id="nombre">
+        <label for="apellido">Apellido:</label><input type="text" id="apellido">
+        <input type="submit" value="Rellenar datos" onclick="enviarSaludo();">     
+    </form>
+    
+    <p id="saludo"></p>
+
+    </body>
+    <script>
+        function enviarSaludo() {
+            const saludo_p = document.getElementById('saludo')
+            const nombre_val = document.getElementById('nombre').value
+            const apellido_val = document.getElementById('apellido').value
+
+            saludo_p.innerHTML = `Hola ${nombre_val} ${apellido_val}, gracias por rellenar el fomulario`
+            return false
+        }
+    </script>
+</html>
