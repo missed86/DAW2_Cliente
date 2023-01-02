@@ -8,7 +8,7 @@
 </head>      
 <body>
     <p>
-      <label for="comentarios">Ingrese sus comentarrios</label>
+      <label for="comentarios">Ingrese sus comentarios</label>
     </p>
     <p>
       <textarea name="comentarios" id="comentarios" cols="30" rows="10" maxlength="50"></textarea>
@@ -18,5 +18,13 @@
       <span id="resultado">50</span>
     </p>
   </body>
-  
+  <script>
+    const comentariosTA = document.getElementById("comentarios")
+    const resultado = document.getElementById("resultado")
+
+    comentariosTA.addEventListener("keyup", () => {
+      const counter = comentariosTA.value.length
+      resultado.innerHTML = 50-counter
+    })
+  </script>
   </html>

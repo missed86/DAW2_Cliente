@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Ej12</title>
+	</head>
+	<body>
+		<button id="boton">Calcular números casi primos</button>
+		<table id="tabla"></table>
+	</body>
+	<script>
+		const tabla = document.getElementById("tabla");
+		const boton = document.getElementById("boton");
+
+		let html = "";
+		counter = 1;
+		for (let i = 0; i < 100; i++) {
+			html += "<tr>";
+			for (let j = 0; j < 100; j++) {
+				html += `<td class="${
+					esCasiPrimo(counter) ? "casiprimo" : ""
+				}">${counter}</td>`;
+				counter++;
+			}
+			html += `</tr>`;
+		}
+		tabla.innerHTML = html;
+
+		boton.addEventListener("click", () => {
+			document
+				.querySelectorAll(".casiprimo")
+				.forEach((e) => (e.style.backgroundColor = "yellow"));
+		});
+
+		function esCasiPrimo(n) {
+			let count = 0;
+			for (let i = 1; i <= n; i++) {
+				if (n % i === 0) {
+					count++;
+				}
+				if (count > 3) {
+					return false;
+				}
+			}
+			return count === 3;
+		}
+	</script>
+</html>

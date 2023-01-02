@@ -1,44 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Ej8</title>
-</head>      
-<body>
-    <p>
-        <label for="valor1">Ingrese primer valor:</label>
-        <input type="number" id="valor1" />
-    </p>
-    <p>
-        <label for="valor2">Ingrese segundo valor:</label>
-        <input type="number" id="valor2" />
-    </p>
-    <p>
-        <select id="operacion">
-        <option value="suma">Sumar</option>
-        <option value="resta">Restar</option>
-        </select>
-    </p>
-    <p>
-        <input type="button" value="Operar" id="calculo" />
-    </p>
-    <p id="resultado1"></p>
-    <select multiple="multiple" id="operaciones">
-        <option value="suma">Sumar</option>
-        <option value="resta">Restar</option>
-    </select>
-    <p>
-        <input type="button" value="Operar" id="calculomultiple" />
-    </p>
-    <p id="resultado2"></p>
-    <script>
-        const calculoBtn = document.getElementById('calculomultiple')
-        calculoBtn.addEventListener('click', ()=>{
-            console.log(document.getElementById('operaciones').value)
-        })
-    </script>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Ej8</title>
+	</head>
+	<body>
+		<p>
+			<label for="valor1">Ingrese primer valor:</label>
+			<input type="number" id="valor1" />
+		</p>
+		<p>
+			<label for="valor2">Ingrese segundo valor:</label>
+			<input type="number" id="valor2" />
+		</p>
+		<p>
+			<select id="operacion">
+				<option value="suma">Sumar</option>
+				<option value="resta">Restar</option>
+			</select>
+		</p>
+		<p>
+			<input type="button" value="Operar" id="calculo" />
+		</p>
+		<p id="resultado1"></p>
+		<select multiple="multiple" id="operaciones">
+			<option value="suma">Sumar</option>
+			<option value="resta">Restar</option>
+		</select>
+		<p>
+			<input type="button" value="Operar" id="calculomultiple" />
+		</p>
+		<p id="resultado2"></p>
+		<script>
+			const valor1 = document.getElementById("valor1");
+			const valor2 = document.getElementById("valor2");
+			const resultado1 = document.getElementById("resultado1");
+			const resultado2 = document.getElementById("resultado2");
+			const calculoBtn = document.getElementById("calculo");
+			const operacion = document.getElementById("operacion");
+			calculoBtn.addEventListener("click", () => {
+				switch (operacion.value) {
+					case "suma":
+						resultado1.innerHTML = Number(valor1.value) + Number(valor2.value);
+						break;
+					case "resta":
+						resultado1.innerHTML = Number(valor1.value) - Number(valor2.value);
+						break;
+				}
+			});
 
+			const calculoMultipleBtn = document.getElementById("calculomultiple");
+			const operaciones = document.getElementById("operaciones");
+			calculoMultipleBtn.addEventListener("click", () => {
+				const seleccionados = [];
+				for (let i = 0; i < operaciones.options.length; i++) {
+					if (operaciones.options[i].selected)
+						seleccionados.push(operaciones.options[i].value);
+				}
+				resultado = "";
+				for (const operacion of seleccionados) {
+					console.log(operacion);
+					switch (operacion) {
+						case "suma":
+							resultado +=
+								"La suma es: " + (Number(valor1.value) + Number(valor2.value)) + "<br>";
+							break;
+						case "resta":
+							resultado +=
+								"La resta es: " + (Number(valor1.value) - Number(valor2.value)) + "<br>";
+							break;
+					}
+				}
+				resultado2.innerHTML = resultado;
+			});
+		</script>
+	</body>
 </html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ej13</title>
+</head>
+<body>
+    <ul id="lista"></ul>
+    <button id="btnMarcar">Marcar Todos</button>
+    <button id="btnDesmarcar">Desmarcar Todos</button>
+</body>
+<script>
+    const lista = document.getElementById("lista")
+    const btnMarcar = document.getElementById("btnMarcar")
+    const btnDesmarcar = document.getElementById("btnDesmarcar")
+    
+    for (let i = 0; i < 100; i++) {
+        lista.innerHTML+=`<li><input type="checkbox" id="">${Math.floor(Math.random()*10000)}</li>`
+    }
+    
+    const checkboxs = document.querySelectorAll("input[type=checkbox]")
+
+    btnMarcar.addEventListener("click",()=>{
+        checkboxs.forEach(checkbox=> checkbox.checked=true)
+    })
+    btnDesmarcar.addEventListener("click",()=>{
+        checkboxs.forEach(checkbox=> checkbox.checked=false)
+    })
+</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ej14</title>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script>
+    const App = document.getElementById("app")
+    
+    const p1 = document.createElement("p")
+    const p2 = document.createElement("p")
+    const p3 = document.createElement("p")
+    const boton = document.createElement("button")
+
+    p1.textContent = "Párrafo 1"
+    p2.textContent = "Párrafo 2"
+    p3.textContent = "Párrafo 3"
+    boton.textContent = "Reaparecer"
+
+    App.appendChild(p1)
+    App.appendChild(p2)
+    App.appendChild(p3)
+    App.appendChild(boton)
+
+    p1.addEventListener("click",e=>{ e.target.style.opacity=0})
+    p1.addEventListener("dblclick",e=>{ e.target.remove()})
+    p2.addEventListener("click",e=>{ e.target.style.opacity=0})
+    p2.addEventListener("dblclick",e=>{ e.target.remove()})
+    p3.addEventListener("click",e=>{ e.target.style.opacity=0})
+    p3.addEventListener("dblclick",e=>{ e.target.remove()})
+    boton.addEventListener("click", ()=>{
+        document.querySelectorAll("p").forEach(e=>e.style.opacity = 1)
+    })
+
+</script>
+</body>
+</html>
