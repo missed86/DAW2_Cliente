@@ -12,4 +12,5 @@ fieldset {
 
 .error {
   border-color: red;
+  background-color: rgb(255, 237, 237);
 }
