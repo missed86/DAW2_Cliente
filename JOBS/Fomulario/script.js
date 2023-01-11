@@ -1,3 +1,5 @@
+const botonEnviar = document.getElementById("enviar");
+
 function getFormData() {
   const formTags = document.querySelectorAll("#formulario *");
   let formData = {};
@@ -18,24 +20,37 @@ function validacion(formData) {
     "telefono",
     "e-mail",
     "contraseña",
+    "contraseña2",
     "comentario",
   ];
-  for (elem of required) {
-    const value = formData[elem];
-    console.log(value);
+  for (campo of required) {
+    const value = formData[campo];
+    // console.log(value);
+    const element = document.querySelector(`*[name='${campo}']`);
     if (value.trim() == "") {
-      console.log("error");
-      document.querySelector(`*[name='${elem}']`).classList.add("error");
+      // console.log("error");
+      element.classList.add("error");
+      addError(element, "Campo obligatorio");
     } else {
-      document.querySelector(`*[name='${elem}']`).classList.remove("error");
+      element.classList.remove("error");
+      addError(element, "");
     }
   }
+  validarContraseña();
+  validarEmail();
+  nombreCompleto.forEach((input) => {
+    validarNombre(input);
+  });
 }
 const regex = {
   email: RegExp(
     "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
   ),
   telefono: RegExp("[0-9]{9}"),
+  nombre: RegExp("^[A-ZÁÉÍÓÚÄËÏÖÜÑ][a-záéíóúäëïöüñ]{1,}"),
+  pass: RegExp(
+    "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+  ),
 };
 
 //Formatear teléfono
@@ -73,9 +88,70 @@ email.addEventListener("change", validarEmail);
 email.addEventListener("keyup", validarEmail);
 
 function validarEmail() {
-	if (regex.email.test(email.value.trim())) {
-		email.classList.remove("error");
-	} else {
-		email.classList.add("error");
-	}
+  if (email.value.trim() != "") {
+    if (regex.email.test(email.value.trim())) {
+      email.classList.remove("error");
+      addError(email, "");
+    } else {
+      email.classList.add("error");
+      addError(email, "Formato incorrecto");
+    }
+  }
+}
+
+const nombreCompleto = [
+  document.getElementById("nombre"),
+  document.getElementById("apellido1"),
+  document.getElementById("apellido2"),
+];
+
+// nombreCompleto.forEach((input) => {
+//   input.addEventListener("keyup", (e) => {
+//     validarNombre(input);
+//   });
+// });
+
+function validarNombre(e) {
+  if (e.value.trim() != "") {
+    if (regex.nombre.test(e.value.trim())) {
+      e.classList.remove("error");
+      addError(e, "");
+    } else {
+      e.classList.add("error");
+      addError(e, "Formato incorrecto, empieza por una Mayúscula");
+    }
+  }
+}
+
+const pass = document.getElementById("contraseña");
+const pass2 = document.getElementById("contraseña2");
+function validarContraseña() {
+  console.log(pass.value, regex.pass.test(pass.value));
+  if (pass.value.trim() != "" || pass2.value.trim() != "") {
+    if (pass.value == pass2.value) {
+      if (regex.pass.test(pass.value)) {
+        pass.classList.remove("error");
+        pass2.classList.remove("error");
+        addError(pass, "");
+        addError(pass2, "");
+      } else {
+        pass.classList.add("error");
+        pass2.classList.add("error");
+        addError(
+          pass2,
+          "La contraseña debe contener al menos una mayúscula, un numero y un carácter especial, y tener al menos 8 caratéres"
+        );
+      }
+    } else {
+      pass.classList.add("error");
+      pass2.classList.add("error");
+      addError(pass2, "Las contraseñas deben coincidir");
+    }
+  }
+}
+
+function addError(element, msg = "") {
+  // console.log(element, msg);
+  const errorElement = element.parentNode.querySelector("* ~ .error-msg");
+  errorElement.innerHTML = " " + msg;
 }
