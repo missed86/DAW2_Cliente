@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 4</title>
+  </head>
+  <body>
+    <input name="id" id="id" type="number" placeholder="Introduce una ID" />
+    <button id="button">Comprueba</button><br><br>
+    <textarea name="result" id="result"></textarea>
+
+    <script>
+      /*
+
+Mediante la dirección web:
+https://jsonplaceholder.typicode.com/users?id=[número de 1 a 10]
+Recuperamos los datos de un usuario en particular. Ingresar en un formulario el id de un
+usuario y al presionar un botón mostrar los datos del mismo.
+La estructura del archivo JSON es:
+[
+ {
+ "id": 1,
+ "name": "Leanne Graham",
+ "username": "Bret",
+ "email": "Sincere@april.biz",
+ "address": {
+ "street": "Kulas Light",
+ "suite": "Apt. 556",
+ "city": "Gwenborough",
+ "zipcode": "92998-3874",
+ "geo": {
+ "lat": "-37.3159",
+ "lng": "81.1496"
+ }
+ },
+ "phone": "1-770-736-8031 x56442",
+ "website": "hildegard.org",
+ "company": {
+ "name": "Romaguera-Crona",
+ "catchPhrase": "Multi-layered client-server neural-net",
+ "bs": "harness real-time e-markets"
+ }
+ }
+]
+
+*/
+
+      const input = document.getElementById("id");
+      const result = document.getElementById("result");
+      const button = document.getElementById("button")
+      button.addEventListener('click', ()=> {
+        fetch(`https://jsonplaceholder.typicode.com/users?id=${input.value}`)
+          .then((response) => response.json())
+          .then(([data]) => {
+            result.value = JSON.stringify(data)
+          })
+          .catch((error) => {
+            console.warn = error;
+          });
+      })
+    </script>
+  </body>
+</html>
