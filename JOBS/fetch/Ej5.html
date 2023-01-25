@@ -86,5 +86,37 @@ método 'fetch'.
     <title>Ejercicio 5</title>
   </head>
   <body>
+    <script>
+      fetch("https://randomuser.me/api/")
+        .then((response) => response.json())
+        .then((data) => {
+          const firstName = data.results[0].name.first;
+          const lastName = data.results[0].name.last;
+          const gender = data.results[0].gender;
+
+          document.body.innerHTML = `<p>Primer nombre: ${firstName}</p> <p>Segundo nombre: ${lastName}</p>`;
+          if (gender === "male") {
+            fetch("./hombre.png")
+              .then((response) => response.blob())
+              .then((imgBlob) => {
+                const imageUrl = URL.createObjectURL(imgBlob);
+                const imageElement = document.createElement("img");
+                imageElement.src = imageUrl;
+                imageElement.style.height = '80px'
+                document.body.appendChild(imageElement);
+              });
+          } else {
+            fetch("./mujer.png")
+              .then((res) => res.blob())
+              .then((imgBlob) => {
+                const imageUrl = URL.createObjectURL(imgBlob);
+                const imageElement = document.createElement("img");
+                imageElement.style.height = '80px'
+                imageElement.src = imageUrl;
+                document.body.appendChild(imageElement);
+              });
+          }
+        });
+    </script>
   </body>
 </html>

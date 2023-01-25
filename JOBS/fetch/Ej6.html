@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicio 6</title>
+  </head>
+  <body>
+    <p>
+      <label for="descripcion">Descripción del artículo:</label><br />
+      <input id="description" name="descripcion" />
+    </p>
+    <p>
+      <label for="precio">Precio:</label><br />
+      <input id="price" name="precio" />
+    </p>
+    <p>
+      <button id="btn">Nuevo artículo</button>
+    </p>
+    <p id="table"></p>
+    <script>
+      const description = document.getElementById('description')
+      const price = document.getElementById('price')
+      const btn = document.getElementById('btn')
+      btn.addEventListener('click',()=>{
+        insertData()
+      })
+      
+      let fetched = 
+        fetch('./ej6.json')
+        .then(res => res.json())
+        .then(data=>{
+          printTable(data)
+          fetched = data
+        })
+      
+      function insertData() {
+        const codigo = fetched[fetched.length-1].codigo+1
+        fetched.push({"codigo": codigo, "descripcion": description.value, "precio": price.value})
+        printTable(fetched)
+      }
+      function printTable(data) {
+        const table = document.getElementById('table')
+        let insert = ""
+        let result = ""
+
+          data.forEach(({codigo, descripcion, precio}) => {
+            insert += `
+              <tr>
+                <td>${codigo}</td>
+                <td>${descripcion}</td>
+                <td>${precio}</td>
+              </tr>`
+          });
+          result = `
+          <table>
+            <tr>
+              <th>Código</th>
+              <th>Descripción</th>
+              <th>Precio</th>
+            </tr>
+            ${insert}
+          </table>`;
+          table.innerHTML = result
+      }
+    </script>
+  </body>
+</html>
